@@ -250,11 +250,14 @@ $(".add_new_content").on('click', '.sup_new_box_doc', function() {
 
 $('.add_new_content').on('change', '.changeDocument', function() {
     var val= $(this).val();
+    var desc= $(this).attr("description");
     var i= $(this).attr('indexe');
-    if (val!="autre") {
-        $('#p'+i).prop("disabled", true); 
+    if (val!="") {
+        $('#p'+i).val(desc); 
+        $('#p'+i).prop("readonly", true); 
     } else {
-        $('#p'+i).prop("disabled", false);
+
+        $('#p'+i).prop("readonly", false);
     }
     $('#p'+i).val("");
 });
