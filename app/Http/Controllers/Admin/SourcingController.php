@@ -21,6 +21,7 @@ use App\Models\Sourcing_product;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -92,6 +93,7 @@ class SourcingController extends Controller
 
             if($request->has('files')){
                 $names = $request->input('name');
+                // return $names;
                 $doc_requis_uuid = $request->input('doc_requis_uuid');
                 foreach($request->file('files') as $key => $file){
                  $imageName = Str::uuid().'.'.$file->getClientOriginalExtension();
@@ -100,10 +102,22 @@ class SourcingController extends Controller
                  $file->move($destinationPath, $imageName);
                  $filePath = $destinationPath . '/' . $imageName;
 
+                 
+                 if (($doc_requis_uuid[$key])!="") {
+                    $documentRequis = DocumentRequis::where('uuid', $doc_requis_uuid[$key])->first();
+                    $fileLibelle=$documentRequis->libelle;
+                 } 
+                 if(($names[$key])!=""){ 
+                   $fileLibelle=$names[$key] ?? "...";
+                 }
+                 
+                //  Log::info($fileLibelle);
+                 
+
                  $sourcing_file = Sourcing_file::create([
                     'uuid' => Str::uuid(),
-                    'name' => $names[$key] ?? "",
-                    'doc_requis_uuid' => $doc_requis_uuid[$key],
+                    'name' => $fileLibelle ?? "",
+                    'doc_requis_uuid' => $doc_requis_uuid[$key] ?? "",
                     'sourcing_id' => $sourcing->id,
                     'files' => $imageName,
                     'filePath' => $filePath,

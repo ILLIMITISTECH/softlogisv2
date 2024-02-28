@@ -107,7 +107,7 @@
                                                                             <option value="">Selectionner le document
                                                                             </option>
                                                                             @foreach ($documentRequises as $documentRequise)
-                                                                                <option value="{{ $documentRequise->uuid }}">
+                                                                                <option description="{{ $documentRequise->description }}" value="{{ $documentRequise->uuid }}">
                                                                                     {{ $documentRequise->libelle }}
                                                                                 </option>
                                                                             @endforeach
