@@ -251,7 +251,7 @@ $(".add_new_content").on('click', '.sup_new_box_doc', function() {
 $('.add_new_content').on('change', '.changeDocument', function() {
     var val= $(this).val();
     var i= $(this).attr('indexe');
-    if (val!="autre") {
+    if (val!="") {
         $('#p'+i).prop("disabled", true); 
     } else {
         $('#p'+i).prop("disabled", false);

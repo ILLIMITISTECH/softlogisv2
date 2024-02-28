@@ -104,14 +104,14 @@
                                                                     <div class="col-3">
                                                                         <select name="doc_requis_uuid[]" class=" changeDocument form-select"
                                                                             id="" indexe="0">
-                                                                            <option value="autre">Selectionner le document
+                                                                            <option value="">Selectionner le document
                                                                             </option>
                                                                             @foreach ($documentRequises as $documentRequise)
                                                                                 <option value="{{ $documentRequise->uuid }}">
                                                                                     {{ $documentRequise->libelle }}
                                                                                 </option>
                                                                             @endforeach
-                                                                            <option value="autre">Autre</option>
+                                                                            <option value="">Autre</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="col-4 ">
