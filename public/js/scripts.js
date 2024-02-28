@@ -228,10 +228,10 @@ function addNewDocument() {
     const documentTemplate = document.createElement('div');
     documentTemplate.className = 'row col-12';
     documentTemplate.innerHTML = `
-                <div class="col-5 mb-3">
+                <div class="col-4 mb-3">
                     <input type="text" name="name[]" class="form-control" placeholder="Titre du fichier">
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <input type="file" accept=".pdf, .doc, .docx, .xls, .xlsx" class="form-control" name="files[]" multiple>
                 </div>
                 <div class="col-1 delete-document">
@@ -242,6 +242,7 @@ function addNewDocument() {
     // Ajoute le nouveau bloc en dessous de la liste existante
     documentContainer.appendChild(documentTemplate);
 }
+
 
 
 function deleteDocSourcing(button) {

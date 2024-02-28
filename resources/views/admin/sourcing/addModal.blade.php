@@ -102,8 +102,15 @@
                                                                         class="bx bxs-plus-square"></i>Ajouter un
                                                                     document</button>
                                                             </div>
+                                                           
                                                             <div class="" id="docu_content">
-
+                                                                <div class="col-3">
+                                                                    <select name="doc_requis_uuid[]" id="" class="form-select">
+                                                                        @foreach ($documentRequises as $doc )
+                                                                            <option class="form-control" value="{{ $doc->uuid }}">{{ $doc->libelle }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -254,5 +261,7 @@
             document.getElementById('search_results').innerHTML = '';
         }
     });
+
+    var documentRequises = {{ $documentRequises }};
 
 </script>

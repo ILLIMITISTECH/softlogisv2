@@ -21,7 +21,7 @@ class Sourcing_file extends Model
         'statut',
         'uuid_validator',
         'date_validation',
-
+        'doc_requis_uuid',
     ];
     public function file()
     {

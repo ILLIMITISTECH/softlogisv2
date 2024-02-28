@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\FactProformaController;
 use App\Http\Controllers\Admin\FactureProformaController;
 use App\Http\Controllers\Admin\TransporteurController;
 use App\Http\Controllers\Admin\CollaborateurController;
+use App\Http\Controllers\Admin\DocumentRequisController;
 use App\Http\Controllers\Admin\RefacturationController;
 use App\Http\Controllers\Admin\OdreExpeditionController;
 use App\Http\Controllers\Admin\RegimeController;
@@ -208,6 +209,13 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::post('store/document', [ConfigController::class, 'store'])->name('config.store');
         Route::get('update/document/{uuid}', [ConfigController::class, 'update'])->name('config.update');
         Route::post('destroy/document/{uuid}', [ConfigController::class, 'destroy'])->name('config.destroy');
+
+            // Document requis
+            Route::get('/document-requis', [DocumentRequisController::class, 'index'])->name('document-requis');
+            Route::post('/document-store', [DocumentRequisController::class, 'store'])->name('document_store');
+            Route::post('/document-update/{uuid}', [DocumentRequisController::class, 'update'])->name('document_update');
+            Route::post('/document-destroy/{uuid}', [DocumentRequisController::class, 'destroy'])->name('document_destroy');
+
 
         // Odre de transite route
         Route::get('/od_transite', [OdTransiteController::class, 'index'])->name('od_transite.index');

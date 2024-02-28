@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ArticleFamily;
 use App\Models\Sourcing_file;
+use App\Models\DocumentRequis;
 use App\Models\Sourcing_product;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -41,7 +42,9 @@ class SourcingController extends Controller
 
         $regimes = Regime::where('etat', 'actif')->get();
 
-        return view('admin.sourcing.index', compact('products', 'sourcings', 'families', 'regimes'));
+        $documentRequises = DocumentRequis::where('etat', 'actif')->get();
+
+        return view('admin.sourcing.index', compact('products', 'sourcings', 'families', 'regimes', 'documentRequises'));
     }
 
 
@@ -89,6 +92,7 @@ class SourcingController extends Controller
 
             if($request->has('files')){
                 $names = $request->input('name');
+                $doc_requis_uuid = $request->input('doc_requis_uuid');
                 foreach($request->file('files') as $key => $file){
                  $imageName = Str::uuid().'.'.$file->getClientOriginalExtension();
                 //  $imageName = $file->getClientOriginalName();
@@ -99,6 +103,7 @@ class SourcingController extends Controller
                  $sourcing_file = Sourcing_file::create([
                     'uuid' => Str::uuid(),
                     'name' => $names[$key],
+                    'doc_requis_uuid' => $doc_requis_uuid[$key],
                     'sourcing_id' => $sourcing->id,
                     'files' => $imageName,
                     'filePath' => $filePath,
