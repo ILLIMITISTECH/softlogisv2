@@ -102,7 +102,7 @@ class SourcingController extends Controller
 
                  $sourcing_file = Sourcing_file::create([
                     'uuid' => Str::uuid(),
-                    'name' => $names[$key],
+                    'name' => $names[$key] ?? "",
                     'doc_requis_uuid' => $doc_requis_uuid[$key],
                     'sourcing_id' => $sourcing->id,
                     'files' => $imageName,

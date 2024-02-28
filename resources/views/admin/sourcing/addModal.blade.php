@@ -90,27 +90,47 @@
                                             <h5 class="mb-1">Ajout des Documents</h5>
                                             <p class="mb-4">charger ici tous les documents necessaires. (PDF, Word,
                                                 Excel)</p>
-
                                                 <div class="mb-3 col-12" style="font-size: 13px">
                                                     <div>
                                                         <div class="my-3">
-                                                            <div
-                                                                class="d-flex align-items-center justify-content-between">
+                                                            <div class="d-flex align-items-center justify-content-between">
                                                                 <button id="add_doc" type="button"
-                                                                    class="btn btn-outline-primary py-1 my-auto mb-3"
-                                                                    onclick="addNewDocument()"><i
+                                                                    class=" add_new_box_doc btn btn-outline-primary py-1 my-auto mb-3"><i
                                                                         class="bx bxs-plus-square"></i>Ajouter un
                                                                     document</button>
                                                             </div>
-                                                           
-                                                            <div class="" id="docu_content">
-                                                                <div class="col-3">
-                                                                    <select name="doc_requis_uuid[]" id="" class="form-select">
-                                                                        @foreach ($documentRequises as $doc )
-                                                                            <option class="form-control" value="{{ $doc->uuid }}">{{ $doc->libelle }}</option>
-                                                                        @endforeach
-                                                                    </select>
+                                                            <div class="add_new_content">
+                                                                <div class="row add_new_doc mb-3" id="0">
+                                                                    <div class="col-3">
+                                                                        <select name="doc_requis_uuid[]" class=" changeDocument form-select"
+                                                                            id="" indexe="0">
+                                                                            <option value="autre">Selectionner le document
+                                                                            </option>
+                                                                            @foreach ($documentRequises as $documentRequise)
+                                                                                <option value="{{ $documentRequise->uuid }}">
+                                                                                    {{ $documentRequise->libelle }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                            <option value="autre">Autre</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-4 ">
+                                                                        <input type="text" id="p0" name="name[]"
+                                                                            class="form-control docTitle"
+                                                                            placeholder="Titre du fichier">
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <input type="file"
+                                                                            accept=".pdf, .doc, .docx, .xls, .xlsx"
+                                                                            class="form-control fileDoc" name="files[]" multiple>
+                                                                    </div>
+                                                                    <div class="col-1 ">
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-danger border border-1 border-danger  sup_new_box_doc" id=""><i
+                                                                                class="bx bx-trash"></i></button>
+                                                                    </div>
                                                                 </div>
+    
                                                             </div>
                                                         </div>
                                                     </div>
@@ -119,7 +139,7 @@
                                                             <button class="btn btn-outline-secondary px-4"
                                                                 onclick="event.preventDefault(); stepper1.previous()"><i
                                                                     class='bx bx-left-arrow-alt me-2'></i>Retour</button>
-
+    
                                                             <button class="btn btn-primary px-4"
                                                                 onclick="event.preventDefault(); stepper1.next()">Suivant<i
                                                                     class='bx bx-right-arrow-alt ms-2'></i></button>

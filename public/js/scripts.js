@@ -222,6 +222,43 @@ $('.image-upload-wrap').bind('dragleave', function () {
     $('.image-upload-wrap').removeClass('image-dropping');
 });
 
+
+$(".add_new_box_doc").on("click", function () {
+    // alert('okok');
+    var $clone= $('.add_new_doc:last').clone();
+    $clone.insertAfter('.add_new_doc:last');
+    var i=$('.add_new_doc:last').attr('id');
+    i= Number(i)+1;
+    $('.add_new_doc:last').attr('id',i);
+    // t="p"+i;
+    $('.sup_new_box_doc:last').attr('id',i);
+    p="p"+i;
+    $('.docTitle:last').attr('id',p);
+    $('.docTitle:last').val('');
+    $('.fileDoc:last').val('');
+    
+    $('.changeDocument:last').attr('indexe',i);
+    
+});
+
+$(".add_new_content").on('click', '.sup_new_box_doc', function() {
+    var i= $(this,'.sup_new_box_doc').attr('id');
+     $('#'+i).remove();
+});
+
+// fin de script de clone
+
+$('.add_new_content').on('change', '.changeDocument', function() {
+    var val= $(this).val();
+    var i= $(this).attr('indexe');
+    if (val!="autre") {
+        $('#p'+i).prop("disabled", true); 
+    } else {
+        $('#p'+i).prop("disabled", false);
+    }
+    $('#p'+i).val("");
+});
+
 function addNewDocument() {
     // Clone un modèle de document
     const documentContainer = document.getElementById('docu_content');
