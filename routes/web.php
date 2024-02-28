@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\FactureProformaController;
 use App\Http\Controllers\Admin\TransporteurController;
 use App\Http\Controllers\Admin\CollaborateurController;
 use App\Http\Controllers\Admin\DocumentRequisController;
+use App\Http\Controllers\Admin\ManageDocumentController;
 use App\Http\Controllers\Admin\RefacturationController;
 use App\Http\Controllers\Admin\OdreExpeditionController;
 use App\Http\Controllers\Admin\RegimeController;
@@ -382,7 +383,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::post('/regime/destroy/{uuid}', [RegimeController::class, 'destroy'])->name('regime.destroy');
 
 
-
+        // Module de gestion documentaire
+        Route::get('/manager-dossier', [ManageDocumentController::class, 'index'])->name('manager_dossier.index');
 
 
 

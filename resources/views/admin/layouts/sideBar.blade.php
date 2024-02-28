@@ -81,6 +81,7 @@
             </ul>
         </li>
         @endcan
+
         @can('Show Sourcing')
         <li class="menu-label">IMPORT</li>
         <li>
@@ -108,6 +109,17 @@
                 <div class="menu-title">Ordre de livraison</div>
             </a>
         </li>
+        @endcan
+        
+        @can('Admin Config')
+            <li class="menu-label">DOCUMENTATION</li>
+            <li>
+                <a href="{{ route('admin.manager_dossier.index') }}">
+                    <div class="parent-icon"><i class="lni lni-control-panel fs-6"></i>
+                    </div>
+                    <div class="menu-title">Gestion Documentaire</div>
+                </a>
+            </li>
         @endcan
         @can('Show Expedition')
         <li class="menu-label">EXPORT</li>
