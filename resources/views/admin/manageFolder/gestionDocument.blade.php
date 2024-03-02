@@ -84,7 +84,9 @@
                                         <div class="list-group list-group-flush">
                                             @forelse ($allAgents as $agent)
                                             @php
-                                            $folderByAgentCount = App\Models\DocAssigned::where('etat', 'actif')->where('userUuid', $agent->uuid)->groupBy('userUuid')->count();
+                                            // $folderByAgentCount = App\Models\DocAssigned::where('etat', 'actif')->where('userUuid', $agent->uuid)->groupBy('userUuid')->count();
+
+                                            $folderByAgentCount = countFolderByAgent($agent->uuid);
                                             @endphp
                             
                                             @if ($folderByAgentCount > 0)
@@ -102,6 +104,35 @@
                                             @empty
                                             <span>Aucun agent</span>
                                             @endforelse
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card radius-10">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <p class="mb-0 text-secondary ">Nombre Total Agent</p>
+                                                    <h4 class="my-1">{{ $allAgents->count() }}</h4>
+                                                </div>
+                                                <div class="text-primary ms-auto font-35"><i class="bx bxs-group"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card radius-10">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <p class="mb-0 text-secondary">Nombre Total agent Assigné</p>
+                                                    <h4 class="my-1">{{$countUserAssignFolder}}</h4>
+                                                </div>
+                                                <div class="text-primary ms-auto font-35"><i class='bx bxl-chrome'></i>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -180,6 +211,14 @@
                                             <div class="progress" style="height: 7px;">
                                                 <div class="progress-bar bg-warning" role="progressbar" style="width: {{$perCentdocNotAssign}}%;" aria-valuenow="{{$perCentdocNotAssign}}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div id="chart4"></div>
                                         </div>
                                     </div>
                                 </div>

@@ -103,6 +103,8 @@
 	<script src="{{ asset('assets/plugins/chartjs/js/Chart.extension.js') }}"></script>
 	<script src="{{ asset('assets/plugins/sparkline-charts/jquery.sparkline.min.js') }}"></script>
     <script src="{{ asset('assets/js/index3.js') }}" ></script>
+	<script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js')}}"></script>
+	<script src="{{ asset('assets/plugins/apexcharts-bundle/js/apex-custom.js')}}"></script>
 
 	<script src="{{ asset('assets/plugins/bs-stepper/js/bs-stepper.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/bs-stepper/js/main.js') }}"></script>

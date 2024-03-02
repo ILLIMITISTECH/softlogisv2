@@ -18,7 +18,13 @@
                                <option value=""></option>
                                 @foreach ($allAgents as $agent)
                                     @if (!empty($agent))
-                                        <option value="{{ $agent->uuid }}">{{ $agent->name.' '. $agent->lastname }}</option>
+                                        <option value="{{ $agent->uuid }}">
+                                            {{-- <span class="">{{ $agent->name.' '. $agent->lastname }} </span>---
+                                            <span class="badge badge-primary badge-rounded bg-primary p-1">{{ countFolderByAgent($agent->uuid); }}</span> --}}
+
+                                            <button type="button" class="btn btn-primary">{{ $agent->name.' '. $agent->lastname }} <span class="badge bg-dark">{{ countFolderByAgent($agent->uuid); }}</span>
+                                            </button>
+                                        </option>
                                     @endif
                                 @endforeach
                             </select>
@@ -33,24 +39,13 @@
                                 <option></option>
                                 @foreach ($allAgents as $agent)
                                     @if (!empty($agent))
-                                        <option value="{{ $agent->uuid }}">{{ $agent->name.' '. $agent->lastname }}</option>
+                                        <option value="{{ $agent->uuid }}">{{ $agent->name.' '. $agent->lastname }}--- 
+                                            <span>{{ countFolderByBackup($agent->uuid) }}</span></option>
                                     @endif
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                <div class="content row mt-4">
-                        <div class="col">
-                            <div class="card border" style="min-height: 120px">
-                                lorem
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card border" style="min-height: 120px">
-                                lorem
-                            </div>
-                        </div>
-                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

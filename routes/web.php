@@ -391,6 +391,9 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
             // commentaire du document
             Route::post('/insert-comment', [CommentController::class, 'store'])->name('comment.store');
+            // api nbr dossier par agent 
+            Route::get('/agent-folder/{uuid}', [ManageDocumentController::class, 'apiFolderByUser'])->name('apiFolderByUser');
+            Route::get('/flowchartAgent', [ManageDocumentController::class, 'flowchartAgent'])->name('flowchartAgent');
 
 
 

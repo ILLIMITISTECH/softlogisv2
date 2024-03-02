@@ -25,7 +25,8 @@ class ManageDocumentController extends Controller
         $sourcingByBl = Sourcing::where('etat', 'actif')->get();
         $folderAssign = DocAssigned::where('etat', 'actif');
 
-       
+            // dd($folderAssign->count());
+        $countUserAssignFolder = DocAssigned::where('etat', 'actif')->distinct('userUuid')->count();
 
         $docs = DocumentRequis::where('etat', 'actif')->get();
 
@@ -44,7 +45,24 @@ class ManageDocumentController extends Controller
 
         
     
-        return view('admin.manageFolder.gestionDocument', compact('allAgents', 'sourcingByBl', 'docs', 'nombreDossiersAssignes', 'nombreDossiersEnAttente', 'perCentdocAssign','perCentdocNotAssign', 'folderAssign', 'allComments'));
+        return view('admin.manageFolder.gestionDocument',
+        compact('allAgents', 'sourcingByBl', 'docs', 'nombreDossiersAssignes', 'nombreDossiersEnAttente', 'perCentdocAssign','perCentdocNotAssign', 'folderAssign', 'allComments', 'countUserAssignFolder'));
+    }
+
+    public function apiFolderByUser($uuid)
+    {
+        $folderByAgentCount = DocAssigned::where('etat', 'actif')->where('userUuid', $uuid)->groupBy('userUuid')->count();
+
+
+        $folderByBackupCount = DocAssigned::where('etat', 'actif')->where('backupUuid', $uuid)->groupBy('backupUuid')->count();
+
+        $array = array(
+            'count' => $folderByAgentCount,
+            'count' => $folderByBackupCount,
+        );
+
+
+        return response()->json($array);
     }
 
     /**
@@ -122,7 +140,7 @@ class ManageDocumentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specifieflowchartAgentd resource in storage.
      */
     public function update(Request $request, string $id)
     {
@@ -170,8 +188,25 @@ class ManageDocumentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function flowchartAgent()
     {
-        //
+        $agents = DocAssigned::where('etat', 'actif')->distinct('userUuid')->get();
+        // ['Feb', 'Mar', 'Apr', 'May']
+
+     // liste des agents ayant au moins un dossier
+        foreach ($agents as $agent) {
+            $array[]=$agent->user->name;
+             //Nombre de dossier assigné par un agent
+             $folderAssign[]= countFolderByAgent($agent->user->uuid);
+        }
+        $datas = [
+            'liste'=>json_encode($array),
+            'folderAssign'=>json_encode($folderAssign),
+        ];
+        return $datas;
+      
+    
+       
+        
     }
 }

@@ -191,15 +191,16 @@ $(function () {
 
 	// chart 4
 	var options = {
-		series: [{
-			name: 'Net Profit',
-			data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+		series: [
+			{
+			name: 'Total Dossier',
+			data: [44, 55, 57, 56]
 		}, {
-			name: 'Revenue',
-			data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+			name: 'Dossier en cours',
+			data: [76, 85, 101, 98]
 		}, {
-			name: 'Free Cash Flow',
-			data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+			name: 'Dossier Terminé',
+			data: [35, 41, 36, 26]
 		}],
 		chart: {
 			foreColor: '#9ba7b2',
@@ -222,15 +223,16 @@ $(function () {
 			colors: ['transparent']
 		},
 		title: {
-			text: 'Column Chart',
+			text: 'Taux de traitement documentaire par agent',
 			align: 'left',
 			style: {
 				fontSize: '14px'
 			}
 		},
-		colors: ["#212529", '#0d6efd', '#ffc107'],
+		colors: ['#0d6efd', "#212529", '#ffc107'],
 		xaxis: {
-			categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+			categories: ['Feb', 'Mar', 'Apr', 'May'],
+			
 		},
 		yaxis: {
 			title: {
