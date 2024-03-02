@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Regime;
+use App\Models\DocAssigned;
 use App\Models\OdLivraison;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,6 +41,10 @@ class Sourcing extends Model
     public function files()
     {
         return $this->hasMany(Sourcing_file::class);
+    }
+    public function folderAssign()
+    {
+        return $this->belongsTo(DocAssigned::class, 'uuid', 'folderUuid');
     }
 
     public function started_by()

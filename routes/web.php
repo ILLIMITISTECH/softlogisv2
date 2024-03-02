@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\FactProformaController;
 use App\Http\Controllers\Admin\FactureProformaController;
 use App\Http\Controllers\Admin\TransporteurController;
 use App\Http\Controllers\Admin\CollaborateurController;
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\DocumentRequisController;
 use App\Http\Controllers\Admin\ManageDocumentController;
 use App\Http\Controllers\Admin\RefacturationController;
@@ -385,8 +386,11 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
         // Module de gestion documentaire
         Route::get('/manager-dossier', [ManageDocumentController::class, 'index'])->name('manager_dossier.index');
+        Route::post('/assign-dossier/{uuid}', [ManageDocumentController::class, 'assign'])->name('manage_folder.assign');
+        Route::post('/update-dossier/{uuid}', [ManageDocumentController::class, 'update'])->name('manage_folder.update');
 
-
+            // commentaire du document
+            Route::post('/insert-comment', [CommentController::class, 'store'])->name('comment.store');
 
 
 
