@@ -15,7 +15,6 @@ class DocumentRequisController extends Controller
      */
     public function index()
     {
-
         $documentRequises = DocumentRequis::where('etat', 'actif')->get();
         return view('admin.config.documentRequired', compact('documentRequises'));
     }

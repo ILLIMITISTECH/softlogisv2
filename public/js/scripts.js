@@ -13,6 +13,7 @@ $(".wrapper").on('click', '.deleteConfirmation', function () {
     showConfirm_submit(id, uuid, token, url, title, message, param, param2, param3, urlback);
 });
 
+
 function showConfirm_submit(id, uuid, token, url, title, message, param, param2, param3, urlback) {
     Swal.fire({
             title: title,
@@ -182,6 +183,32 @@ $(".wrapper").on('submit', '.submitForm', function (e) {
 });
 
 
+$('.folderCheck').on('click', function () {
+    var docuuid = $(this).val();
+    var sourcing = $(this).attr('sourcing');
+    var clickedUrl = $(this).attr('clickedUrl');
+    console.log(clickedUrl);
+  
+    var formData={
+        'sourcing': sourcing,
+        'docuuid': docuuid,
+        'status': true,
+    };
+    $.ajax({
+        url: clickedUrl,
+        type: 'POST',
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function() { // if form submit
+            //loading();
+        },
+        success: function(data) {
+            console.log("goog".data);
+        }
+    });
+});
 
 
 // window.dataLayer = window.dataLayer || [];

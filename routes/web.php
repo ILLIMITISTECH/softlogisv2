@@ -395,6 +395,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::get('/agent-folder/{uuid}', [ManageDocumentController::class, 'apiFolderByUser'])->name('apiFolderByUser');
             Route::get('/flowchartAgent', [ManageDocumentController::class, 'flowchartAgent'])->name('flowchartAgent');
 
+            Route::post('/updateStatusFolder/', [ManageDocumentController::class, 'updateStatusFolder'])->name('updateStatusFolder');
 
 
         // Statistic views des articles par statut

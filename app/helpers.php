@@ -51,4 +51,46 @@ function countFolderByBackup($uuid)
     return $folderByBackupCount;
 }
 
+function isfolderCheck($uuid_sourcing,$uuid_doc)
+{
+    $is_assign = DocAssigned::where('etat', 'actif')->where(['folderUuid'=>$uuid_sourcing])->first();
+    if ($is_assign) {
+        $isfolderCheck = DocAssigned::where('etat', 'actif')->where(['folderUuid'=>$uuid_sourcing])
+        ->whereRaw("JSON_EXTRACT(datasfile, '$.\"$uuid_doc\"') IS NOT NULL")
+        ->whereRaw("JSON_EXTRACT(datasfile, '$.\"$uuid_doc\".status') = true")
+        ->exists();
+          
+        return $isfolderCheck;
+    } else {
+        return false;
+    }
+    
+}
+
+
+
+function updateStatusFolder($uuidSourcing, $uuidDoc, $newStatus)
+{
+    $docAssigned = DocAssigned::where('etat', 'actif')
+        ->where('folderUuid', $uuidSourcing)
+        ->first();
+
+    if ($docAssigned) {
+        $datasfile = json_decode($docAssigned->datasfile, true);
+
+        if (isset($datasfile[$uuidDoc])) {
+            $datasfile[$uuidDoc]['status'] = $newStatus;
+
+            // Mettez à jour la colonne datasfile avec les données modifiées
+            $docAssigned->datasfile = json_encode($datasfile);
+            $docAssigned->save();
+
+            return true; // La mise à jour a réussi
+        }
+    }
+
+    return false; // La mise à jour a échoué
+}
+
+
 ?>

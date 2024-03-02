@@ -241,14 +241,11 @@
                                     <th>ETA</th>
                                     <th>ETD</th>
                                     <th>ARTICLES</th>
-                                    <th>CA</th>
-                                    
-                                    <th>RFCV</th>
-                                    <th>COC</th>
-                                    <th>FDI</th>
-                                    <th>BC</th>
-                                    <th>CO</th>
+                                    @foreach ($docs as $doc )
+                                    <th>{{$doc->libelle}}</th>
+                                    @endforeach
                                     <th>AGENT</th>
+
                                     <th></th>
                                 </tr>
                             </thead>
@@ -268,37 +265,19 @@
                                     <td>{{ Carbon\Carbon::parse($item->date_arriver)->format('d/m/y') ?? '--'}}</td>
                                     <td>{{ Carbon\Carbon::parse($item->date_depart)->format('d/m/y') ?? '--'}}</td>
                                     <td>{{ $item->products->count() ?? '--'}}</td>
+                                    @foreach ($docs as $doc )
                                     <td>
-                                        <div class="form-check form-switch form-check-success">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckSuccess" checked>
+                                        <div class="form-check form-switch  form-check-success" clickedUrl="{{ route('admin.updateStatusFolder') }}" value="{{$doc->uuid}}" name="folderCheck" sourcing="{{$item->uuid}}">
+                                            <input class="form-check-input folderCheck" unchecked clickedUrl="{{ route('admin.updateStatusFolder') }}" value="{{$doc->uuid}}" name="folderCheck" sourcing="{{$item->uuid}}" type="checkbox"
+                                            @if (isfolderCheck($item->uuid,$doc->uuid))
+                                                {{"checked disabled"}} 
+                                            @endif
+                                            role="switch" id="flexSwitchCheckSuccess" >
+                                            {{-- {{isfolderCheck($item->uuid,$doc->uuid)}} --}}
                                         </div>
                                     </td>
-                                    <td>
-                                        <div class="form-check form-switch form-check-success">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckSuccess" checked>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-check form-switch form-check-success">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckSuccess" checked>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-check form-switch form-check-danger">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckSuccess">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-check form-switch form-check-danger">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckSuccess">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-check form-switch form-check-success">
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckSuccess" checked>
-                                        </div>
-                                    </td>
-
+                                    @endforeach
+                                    
                                     <td>
                                         @if ($item->folderAssign)
                                         
@@ -324,7 +303,7 @@
                                     
                                     <td class="text-center align-self-center">
                                         
-                                        <a data-bs-toggle="modal" data-bs-target="#assignModal{{ $item->uuid }}" class="text-primary" style="cursor:pointer;"><i class="lni lni-network"></i></a>
+                                        <a data-bs-toggle="modal" data-bs-target="#assignModal{{ $item->uuid }}" class="text-success" style="cursor:pointer;"><i class="lni lni-network"></i></a>
 
                                         <a data-bs-toggle="modal" data-bs-target="#editModal{{ $item->uuid }}" class="mx-2" style="cursor:pointer;"><i class='bx bxs-edit'></i></a>
 

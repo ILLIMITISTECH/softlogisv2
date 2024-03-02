@@ -16,10 +16,12 @@ class DocAssigned extends Model
         'uuid',
         'code',
         'etat',
-        'folderUuid',
+        'folderUuid',//sourcing
         'userUuid',
         'backupUuid',
         'assignedByUuid',
+        'datasfile',
+        'status',
     ];
 
     /**

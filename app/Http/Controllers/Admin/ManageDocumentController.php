@@ -24,11 +24,14 @@ class ManageDocumentController extends Controller
 
         $sourcingByBl = Sourcing::where('etat', 'actif')->get();
         $folderAssign = DocAssigned::where('etat', 'actif');
+        // $documentRequises = DocumentRequis::where('etat', 'actif')->get();
 
             // dd($folderAssign->count());
         $countUserAssignFolder = DocAssigned::where('etat', 'actif')->distinct('userUuid')->count();
 
         $docs = DocumentRequis::where('etat', 'actif')->get();
+
+        // dd(isfolderCheck($uuid_sourcing,$uuid_folder));
 
         $totalDossiers = $sourcingByBl->count();
 
@@ -68,10 +71,29 @@ class ManageDocumentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function  updateStatusFolder(request $request)
     {
-        //
+    $docAssigned = DocAssigned::where('etat', 'actif')
+        ->where('folderUuid', $request->sourcing)
+        ->first();
+        // dd($docAssigned);
+
+    if ($docAssigned) {
+        $datasfile = json_decode($docAssigned->datasfile, true);
+
+        if (isset($datasfile[$request->docuuid])) {
+            $datasfile[$request->docuuid]['status'] = true;
+
+            // Mettez à jour la colonne datasfile avec les données modifiées
+            $docAssigned->datasfile = json_encode($datasfile);
+            $docAssigned->save();
+
+            return true; // La mise à jour a réussi
+        }
     }
+
+    return "pas d'assignation"; // La mise à jour a échoué
+}
 
     /**
      * Store a newly created resource in storage.
@@ -82,12 +104,23 @@ class ManageDocumentController extends Controller
         DB::beginTransaction();
         try {
             $userAssigned = Auth::user()->uuid;
+            $documentRequises = DocumentRequis::where('etat', 'actif')->get();
+            foreach ($documentRequises as $key => $documentRequise) {
+                $datas[$documentRequise->uuid] = array(
+                    'status' => false,
+                    'date'=> null,
+                    'file'=>$documentRequise->uuid
+                );
+            }
+            $datasfile=json_encode($datas);
             $saving= DocAssigned::create([
                 'uuid'=>Str::uuid(),
                 'folderUuid' => $request->folderUuid,
                 'userUuid' => $request->userUuid,
                 'backupUuid' => $request->backupUuid,
                 'assignedByUuid' => $userAssigned,
+                'status'=>"En cours",
+                'datasfile' =>$datasfile ,
                 'etat' => 'actif',
                 'code' => Refgenerate(DocAssigned::class, 'DA', 'code'),
             ])->save();
