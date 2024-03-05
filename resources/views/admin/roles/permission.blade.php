@@ -4,7 +4,7 @@
 
 <div class="page-content">
     <!--breadcrumb-->
-    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="page-breadcrumb d-sm-flex align-items-center mb-3">
         <div class="breadcrumb-title pe-3 text-uppercase">Configuration</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
@@ -27,6 +27,7 @@
         <div class="card-body">
             <div class="d-lg-flex align-items-center mb-4 gap-3">
 
+                @if (Auth::user()->email == 'admin@illimitis.ci')
                 <div class="ms-auto">
                     <button type="button" class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal"
                         data-bs-target="#addPermissionModal"><i class="bx bxs-plus-square"></i>Nouvelle
@@ -34,6 +35,7 @@
                     <button type="button" class="btn btn-primary radius-30 mt-2 ms-3 mt-lg-0" data-bs-toggle="modal"
                         data-bs-target="#addGroupModal"><i class="bx bxs-plus-square"></i>Nouveau Group</button>
                 </div>
+                @endif
 
                 <!-- Button trigger modal -->
 

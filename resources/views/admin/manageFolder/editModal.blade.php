@@ -52,18 +52,6 @@
                             </select>
                         </div>
                     </div>
-                <div class="content row mt-4">
-                        <div class="col">
-                            <div class="card border" style="min-height: 120px">
-                                lorem
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card border" style="min-height: 120px">
-                                lorem
-                            </div>
-                        </div>
-                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
