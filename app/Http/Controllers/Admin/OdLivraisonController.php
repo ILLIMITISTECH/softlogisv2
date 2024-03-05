@@ -124,6 +124,14 @@ class OdLivraisonController extends Controller
                 'lieu_livraison' => $request->lieu_livraison,
                 'note' => $request->note,
                 'created_by' => $user,
+                'numOt' => $request->numOt,
+                'numFolder' => $request->numFolder,
+                'numBl' => $request->numBl,
+                'trajetStart_uuid' => $request->trajetStart_uuid,
+                'trajetEnd_uuid' => $request->trajetEnd_uuid,
+                'refCotation' => $request->refCotation,
+                'nbrMachine' => $request->nbrMachine,
+                'productUuid' => $request->productUuid,
                 'etat' => 'actif',
                 'code' => Refgenerate(OdLivraison::class, 'ODL', 'code'),
             ]);
@@ -133,6 +141,10 @@ class OdLivraisonController extends Controller
                     "statut" => "odlivraison",
                 ]);
             }
+
+            // if ($request->has('product_ids')) {
+            //     $saving->products()->attach($request->product_ids);
+            // }
 
             $sourcingProducts = $sourcing->products;
 

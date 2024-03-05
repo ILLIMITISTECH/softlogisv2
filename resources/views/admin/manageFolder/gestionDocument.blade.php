@@ -18,37 +18,34 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <div class="row">
-        {{-- <div class="col-12 col-lg-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-grid mb-4"> <a href="javascript:;" class="btn btn-primary">Agent en charge de dossier</a>
-                    </div>
-                    <div class="fm-menu ">
-                        <div class="list-group list-group-flush "> 
-                            @forelse ($allAgents as $agent)
-                                @php
-                                    $folderByAgentCount = App\Models\DocAssigned::where('etat', 'actif')
-                                    ->where('userUuid', $agent->uuid)->groupBy('userUuid')->count();
-                                @endphp
-
-                                @if ($folderByAgentCount > 0)
-                                <a href="javascript:;" class="list-group-item py-1 ">
-                                    <img src="{{ asset('avatars/'.$agent->avatar)}}" width="25" height="25" class="rounded-circle me-2" alt="" />
-                                    <span class="size_12 me-2">
-                                        {{ $agent->name .' '.$agent->lastname }}
-                                    </span>
-                                    
-                                    <span class="float-end badge badge-info badge-rounded bg-info p-1" style="font-size: 8px">
-                                        {{$folderByAgentCount}}
-                                    </span>
-                                </a>
-                                @endif
-                            @empty
-                                <span>Aucun agent</span>
-                            @endforelse
+    <div class="card">
+        <div class="card-body">
+            <ul class="nav nav-tabs nav-success" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#successhome" role="tab" aria-selected="true">
+                        <div class="d-flex align-items-center">
+                            <div class="tab-icon"><i class='bx bx-user-pin font-18 me-1'></i>
+                            </div>
+                            <div class="tab-title text-capitalize">Voir en tant qu'un Agent</div>
                         </div>
-                    </div>
+                    </a>
+                </li>
+                @can('Assigned folder')
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#successprofile" role="tab" aria-selected="false">
+                            <div class="d-flex align-items-center">
+                                <div class="tab-icon"><i class='bx bx-home font-18 me-1'></i>
+                                </div>
+                                <div class="tab-title text-capitalize">Voir en tant qu'un Administrateur</div>
+                            </div>
+                        </a>
+                    </li>
+                @endcan
+                
+            </ul>
+            <div class="tab-content py-3">
+                <div class="tab-pane fade show active" id="successhome" role="tabpanel">
+                    @include('admin.manageFolder.userManageFolder')
                 </div>
             </div>
             <div class="card size_12">
@@ -328,6 +325,7 @@
                         </table>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>

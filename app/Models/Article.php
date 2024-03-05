@@ -88,4 +88,9 @@ class Article extends Model
         return $this->belongsTo(Entrepot::class, 'entrepot_uuid', 'uuid');
     }
 
+    public function ot()
+    {
+        return $this->belongsToMany(OdLivraison::class, 'ot_products', 'ot_id', 'product_id');
+    }
+
 }

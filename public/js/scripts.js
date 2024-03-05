@@ -289,6 +289,21 @@ $('.add_new_content').on('change', '.changeDocument', function() {
     $('#p'+i).val("");
 });
 
+// Script pour clone de block ajout de produit OT
+$(".add_new_box_product").on("click", function () {
+    var $clone= $('.add_new_prod:last').clone();
+    $clone.insertAfter('.add_new_prod:last');
+    var i=$('.add_new_prod:last').attr('id');
+    i= Number(i)+1;
+    $('.add_new_prod:last').attr('id',i);
+    $('.sup_new_box_doc:last').attr('id',i);
+});
+
+$(".add_new_product").on('click', '.sup_new_box_doc', function() {
+    var i= $(this,'.sup_new_box_doc').attr('id');
+     $('#'+i).remove();
+});
+
 function addNewDocument() {
     // Clone un modèle de document
     const documentContainer = document.getElementById('docu_content');

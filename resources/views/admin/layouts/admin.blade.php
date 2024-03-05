@@ -22,6 +22,10 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" 
+    href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
 
 
     <link href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
@@ -123,7 +127,10 @@
     <script src="{{ asset('assets/plugins/morris/js/morris.js') }}"></script>
     <script src="{{ asset('assets/js/index2.js') }}"></script>
     <script type="text/javascript" charset="utf8"
-        src="https://cdn.datatables.net/rowgroup/1.1.3/js/dataTables.rowGroup.min.js"></script>
+        src="https://cdn.datatables.net/rowgroup/1.1.3/js/dataTables.rowGroup.min.js">
+    </script>
+    <script src="{{ asset('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/select2/js/select2-custom.js')}}"></script>
 
     <script>
         $(document).ready(function() {
@@ -137,6 +144,18 @@
 
             table.buttons().container()
                 .appendTo('#example2_wrapper .col-md-6:eq(0)');
+        });
+        $(document).ready(function() {
+            var table = $('#example3').DataTable({
+                lengthChange: true,
+                buttons: ['copy', 'excel', 'pdf', 'print'],
+                language: {
+                    search: "Recherche :",
+                },
+            });
+
+            table.buttons().container()
+                .appendTo('#example3_wrapper .col-md-6:eq(0)');
         });
     </script>
 

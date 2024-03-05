@@ -20,6 +20,7 @@ use App\Models\DocumentRequis;
 use App\Models\Sourcing_product;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\TransportDestination;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -45,7 +46,9 @@ class SourcingController extends Controller
 
         $documentRequises = DocumentRequis::where('etat', 'actif')->get();
 
-        return view('admin.sourcing.index', compact('products', 'sourcings', 'families', 'regimes', 'documentRequises'));
+        $destinations = TransportDestination::where('etat', 'actif')->get();
+
+        return view('admin.sourcing.index', compact('products', 'sourcings', 'families', 'regimes', 'documentRequises', 'destinations'));
     }
 
 
@@ -282,7 +285,9 @@ class SourcingController extends Controller
 
         $products = Article::where('etat', 'actif')->get();
 
-        return view('admin.sourcing.show', compact('sourcing', 'sourcing_files', 'transporteurs', 'transitaires','transit', 'transport', 'entrepots', 'products'));
+        $destinations = TransportDestination::where('etat', 'actif')->get();
+
+        return view('admin.sourcing.show', compact('sourcing', 'sourcing_files', 'transporteurs', 'transitaires','transit', 'transport', 'entrepots', 'products', 'destinations'));
     }
 
     /**
