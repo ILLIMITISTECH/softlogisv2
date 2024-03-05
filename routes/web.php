@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ArretController;
 use App\Models\User;
 use App\Models\GrilleTarif;
 use App\Models\FactProforma;
@@ -16,8 +17,10 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ConfigController;
 use App\Http\Controllers\Admin\FamilyController;
 use App\Http\Controllers\Admin\MarqueController;
+use App\Http\Controllers\Admin\RegimeController;
 use App\Http\Controllers\Admin\SourceController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -25,21 +28,20 @@ use App\Http\Controllers\Admin\EntrepotController;
 use App\Http\Controllers\Admin\SourcingController;
 use App\Http\Controllers\Admin\ExpTransitController;
 use App\Http\Controllers\Admin\OdTransiteController;
+use App\Http\Controllers\Admin\DestinationController;
 use App\Http\Controllers\Admin\ExTransportController;
 use App\Http\Controllers\Admin\FacturationController;
 use App\Http\Controllers\Admin\GrilleTarifController;
 use App\Http\Controllers\Admin\OdLivraisonController;
 use App\Http\Controllers\Admin\TransitaireController;
 use App\Http\Controllers\Admin\FactProformaController;
-use App\Http\Controllers\Admin\FactureProformaController;
 use App\Http\Controllers\Admin\TransporteurController;
 use App\Http\Controllers\Admin\CollaborateurController;
-use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\RefacturationController;
 use App\Http\Controllers\Admin\DocumentRequisController;
 use App\Http\Controllers\Admin\ManageDocumentController;
-use App\Http\Controllers\Admin\RefacturationController;
 use App\Http\Controllers\Admin\OdreExpeditionController;
-use App\Http\Controllers\Admin\RegimeController;
+use App\Http\Controllers\Admin\FactureProformaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -382,6 +384,16 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::get('/regime', [RegimeController::class, 'index'])->name('regime');
         Route::post('/regime/store', [RegimeController::class, 'store'])->name('regime.store');
         Route::post('/regime/destroy/{uuid}', [RegimeController::class, 'destroy'])->name('regime.destroy');
+        // config destination
+        Route::get('/destination-index', [DestinationController::class, 'index'])->name('destination.index');
+        Route::post('/destination-store', [DestinationController::class, 'store'])->name('destination.store');
+        Route::post('/destination-update{uuid}', [DestinationController::class, 'update'])->name('destination.update');
+        Route::post('/destination-destroy{uuid}', [DestinationController::class, 'destroy'])->name('destination.destroy');
+        // config point d'arret
+        Route::get('/arret-index', [ArretController::class, 'index'])->name('arret.index');
+        Route::post('/arret-store', [ArretController::class, 'store'])->name('arret.store');
+        Route::post('/arret-update{uuid}', [ArretController::class, 'update'])->name('arret.update');
+        Route::post('/arret-destroy{uuid}', [ArretController::class, 'destroy'])->name('arret.destroy');
 
 
         // Module de gestion documentaire

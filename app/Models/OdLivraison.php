@@ -23,6 +23,15 @@ class OdLivraison extends Model
         'lieu_livraison',
         'created_by',
         'sourcing_id',
+
+        'numOt',
+        'numFolder',
+        'numBl',
+        'trajetStart_uuid',
+        'trajetEnd_uuid',
+        'refCotation',
+        'nbrMachine',
+        'productUuid',
         
     ];
 
@@ -39,6 +48,11 @@ class OdLivraison extends Model
     public function sourcing()
     {
         return $this->belongsTo(Sourcing::class, 'sourcing_id', 'uuid');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Article::class, 'ot_products', 'ot_id', 'product_id');
     }
 
 }

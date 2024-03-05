@@ -11,20 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('od_livraisons', function (Blueprint $table) {
+        Schema::create('transport_destinations', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
-            $table->string('code')->unique();
+            $table->string('code')->nullable();
+            $table->string('libelle')->nullable();
+            $table->string('arret_uuid')->nullable();
+            $table->text('description')->nullable();
             $table->string('etat')->default('actif');
-            $table->longText('note')->nullable();
-
-            $table->string('transporteur_uuid')->nullable();
-            $table->string('date_livraison')->nullable();
-            $table->string('lieu_livraison')->nullable();
-            
-            $table->string('created_by')->nullable();
-
-            $table->string('sourcing_id')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('od_livraisons');
+        Schema::dropIfExists('transport_destinations');
     }
 };

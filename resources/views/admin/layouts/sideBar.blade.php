@@ -219,6 +219,9 @@
                 <li> <a href="{{ route('admin.regime') }}"><i class='bx bx-radio-circle'></i>Regime</a>
                 </li>
                 <li> <a href="{{ route('admin.document-requis') }}"><i class='bx bx-radio-circle'></i>Document requis</a> </li>
+                <li> <a href="{{ route('admin.destination.index') }}"><i class='bx bx-radio-circle'></i>Destination</a> </li>
+                
+                <li> <a href="{{ route('admin.arret.index') }}"><i class='bx bx-radio-circle'></i>Point D'arrets</a> </li>
             </ul>
         </li>
         @endcan
