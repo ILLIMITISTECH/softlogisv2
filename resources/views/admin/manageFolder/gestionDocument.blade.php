@@ -287,8 +287,14 @@
                                                 @else
                                                     Non Assigné
                                                 @endif
+                                                <div class="user-groups ms-auto">
+                                                    <img src="assets/images/avatars/avatar-1.png" width="35" height="35" class="rounded-circle" alt="">
+                                                    <img src="assets/images/avatars/avatar-2.png" width="35" height="35" class="rounded-circle" alt="">
+                                                </div>
+                                                
                                             </span>
                                             <br>
+                                            
                                             <hr>
                                             <span class="text-info size_12">
                                                 @if($item->folderAssign->backup)
