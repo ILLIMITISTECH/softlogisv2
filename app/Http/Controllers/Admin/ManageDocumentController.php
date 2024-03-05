@@ -23,7 +23,15 @@ class ManageDocumentController extends Controller
         $allAgents = User::where('etat', 'actif')->get();
 
         $sourcingByBl = Sourcing::where('etat', 'actif')->get();
-        $folderAssign = DocAssigned::where('etat', 'actif');
+
+        
+        $folderAssign = DocAssigned::where('etat', 'actif')->get();
+
+        
+
+        $mesDossiers = $folderAssign->filter(function ($item) {
+            return $item->userUuid === auth()->user()->uuid || $item->backupUuid === auth()->user()->uuid;
+        });
         // $documentRequises = DocumentRequis::where('etat', 'actif')->get();
 
             // dd($folderAssign->count());
@@ -49,7 +57,7 @@ class ManageDocumentController extends Controller
         
     
         return view('admin.manageFolder.gestionDocument',
-        compact('allAgents', 'sourcingByBl', 'docs', 'nombreDossiersAssignes', 'nombreDossiersEnAttente', 'perCentdocAssign','perCentdocNotAssign', 'folderAssign', 'allComments', 'countUserAssignFolder'));
+        compact('allAgents', 'sourcingByBl', 'docs', 'nombreDossiersAssignes', 'nombreDossiersEnAttente', 'perCentdocAssign','perCentdocNotAssign', 'folderAssign', 'allComments', 'countUserAssignFolder', 'mesDossiers'));
     }
 
     public function apiFolderByUser($uuid)

@@ -111,16 +111,15 @@
         </li>
         @endcan
         
-        @can('Admin Config')
+        @canany(['Assigned folder', 'Update status'])
             <li class="menu-label">DOCUMENTATION</li>
             <li>
                 <a href="{{ route('admin.manager_dossier.index') }}">
-                    <div class="parent-icon"><i class="lni lni-control-panel fs-6"></i>
-                    </div>
+                    <div class="parent-icon"><i class="lni lni-control-panel fs-6"></i></div>
                     <div class="menu-title">Gestion Documentaire</div>
                 </a>
             </li>
-        @endcan
+        @endcanany
         @can('Show Expedition')
         <li class="menu-label">EXPORT</li>
         <li>

@@ -27,7 +27,7 @@
         <div class="card-body">
             <div class="d-lg-flex align-items-center mb-4 gap-3">
 
-                <div class="ms-auto d-none">
+                <div class="ms-auto">
                     <button type="button" class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal"
                         data-bs-target="#addPermissionModal"><i class="bx bxs-plus-square"></i>Nouvelle
                         Permission</button>
