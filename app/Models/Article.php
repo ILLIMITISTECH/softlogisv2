@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Entrepot;
+use App\Models\OtProduct;
 use App\Models\stockUpdate;
 use App\Models\ArticleModel;
 use App\Models\ArticleFamily;
@@ -88,9 +89,9 @@ class Article extends Model
         return $this->belongsTo(Entrepot::class, 'entrepot_uuid', 'uuid');
     }
 
-    public function ot()
+    public function otProduct()
     {
-        return $this->belongsToMany(OdLivraison::class, 'ot_products', 'ot_id', 'product_id');
+        return $this->belongsToMany(OtProduct::class, 'product_uuid', 'uuid');
     }
 
 }

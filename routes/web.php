@@ -75,6 +75,7 @@ All Admin Routes List
 
   Route::get('/import-excel', [ExcelImportController::class, 'index'])->name('import.index');
   Route::get('/search-products-by-numero-serie/{input}', [ArticleController::class, 'searchByNumeroSerie']);
+  Route::get('/tag-products-by-numero-serie/{input}', [ArticleController::class, 'tagproductByNumSeri']);
   Route::get('/articles/search', [ArticleController::class, 'search']);
   Route::get('/articles/all', [ArticleController::class, 'all']);
   Route::get('/search-products-by-bon-command/{input}', [ArticleController::class, 'searchByBonCommand']);
@@ -241,6 +242,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
             // transite document route
             Route::post('/add/livraison_document', [OdLivraisonController::class, 'addLivraisonDoc'])->name('od_livraisons.add');
             Route::post('/destroy/livraison_document/{uuid}', [OdLivraisonController::class, 'delette_doc_livraison'])->name('od_livraison_doc.destroy');
+
+            Route::get('/download-ot-PDF/{id}', [OdLivraisonController::class, 'downloadOtPDF'])->name('od_livraison.downloadOtPDF');
 
         // Gestion de stock Reception (in sourcing)
 

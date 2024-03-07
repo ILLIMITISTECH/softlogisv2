@@ -272,6 +272,9 @@ class SourcingController extends Controller
     {
 
         $sourcing = Sourcing::where(['uuid'=>$id])->firstOrFail();
+
+        $otBySourcing = OdLivraison::where(['sourcing_id' => $sourcing->uuid, 'etat' => 'actif'])->get();
+
         $transporteurs = Company::where(['type'=>'transporteur', 'etat'=>'actif','voie_transport'=>'terrestre'])->get();
 
         $transitaires = Company::where(['etat'=> 'actif', 'type' => 'transitaire'])->get();
@@ -284,10 +287,10 @@ class SourcingController extends Controller
         $entrepots = Entrepot::where('etat', 'actif')->get();
 
         $products = Article::where('etat', 'actif')->get();
-
+        
         $destinations = TransportDestination::where('etat', 'actif')->get();
 
-        return view('admin.sourcing.show', compact('sourcing', 'sourcing_files', 'transporteurs', 'transitaires','transit', 'transport', 'entrepots', 'products', 'destinations'));
+        return view('admin.sourcing.show', compact('sourcing', 'sourcing_files', 'transporteurs', 'transitaires','transit', 'transport', 'entrepots', 'products', 'destinations', 'otBySourcing'));
     }
 
     /**

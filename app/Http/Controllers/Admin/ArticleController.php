@@ -481,6 +481,21 @@ class ArticleController extends Controller
 
         return response()->json(['products' => $products]);
     }
+    public function tagproductByNumSeri($input) {
+        // Logique de recherche des produits en fonction du numéro de série
+        $products = Article::where('uuid', 'LIKE', '%' . $input . '%')
+        ->where('etat', 'actif')
+        ->firstOrfail();
+
+        $productByfamilly = $products->familly->libelle;
+
+        $data = [
+            'products' => $products,
+            'productByfamilly' => $productByfamilly
+        ];
+
+        return response()->json($data);
+    }
     public function search(Request $request)
     {
         $searchQuery = $request->input('searchQuery');

@@ -44,12 +44,12 @@
                             <button type="submit" data-bs-toggle="modal" data-bs-target="#CreateOdreTransite" class="btn btn-primary">Ordre de transit</button>
                         @endif
 
-                        @if ($sourcing->statut === 'odTransit')
+                        {{-- @if ($sourcing->statut === 'odTransit') --}}
                         <div class="">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateOdrelivraison">Ordre de livraison
                             </button>
                         </div>
-                        @endif
+                        {{-- @endif --}}
 
                         @can(['Gerer le Stock'])
                             @if (in_array($sourcing->statut, ['received', 'odlivraison']))
@@ -214,7 +214,6 @@
                                         <dd class="col-sm-6">{{ Carbon\Carbon::parse($sourcing->date_arriver)->format('d/m/Y') ?? '--' }}</dd>
                                     </dl>
                                 </div>
-
                                 <dl class="row col-6">
                                     <dt class="col-sm-6">Identifiant du Navire</dt>
                                     <dd class="col-sm-6">{{ ($sourcing->id_navire) ? $sourcing->id_navire : '--' }}</dd>
@@ -228,7 +227,7 @@
                                     <dt class="col-sm-6">Regime</dt>
                                     <dd class="col-sm-6">{{ $sourcing->regime->regime ?? '--' }}</dd>
                                 </dl>
-
+                                {{-- @dd($sourcing->odLivraisons) --}}
                                 <hr class="my-3">
 
                                 <div class="col-12 row mb-3">
@@ -442,11 +441,17 @@
                             @endif
                             <hr class="my-2">
                             @if ($transport != null)
-                            <div class="row col-12 p-3">
-                                <div class="col-10 size_14 text-uppercase">Ordre de transport</div>
-                                <div class="col-2 text-end"><span> <a href="{{ route('admin.od_livraisons.show', ['uuid' => $transport->uuid]) }}"><i class="bx bxs-right-arrow-circle size_16"></i></a> </span></div>
-                            </div>
+                                @foreach ($otBySourcing as $ot)
+                                    <div class="row col-12 p-3">
+                                        <div class="col-10 size_14 text-uppercase">
+                                            Ordre de transport
+                                            <div class="text-muted size_10">{{ $ot->transporteur->raison_sociale ?? '--' }}</div>
+                                        </div>
 
+                                        <div class="col-2 text-end"><span> <a href="{{ route('admin.od_livraisons.show', ['uuid' => $ot->uuid]) }}"><i class="bx bxs-right-arrow-circle size_16"></i></a> </span></div>
+                                    </div>
+                                    <hr>
+                                @endforeach
                             @endif
                         </div>
                     </div>

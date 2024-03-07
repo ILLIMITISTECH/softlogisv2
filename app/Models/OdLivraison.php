@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Models\Company;
 use App\Models\Sourcing;
+use App\Models\OtProduct;
 use App\Models\LivraisonFile;
+use App\Models\TransportDestination;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,7 +54,24 @@ class OdLivraison extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Article::class, 'ot_products', 'ot_id', 'product_id');
+        return $this->belongsToMany(Article::class, 'ot_products', 'ot_uuid', 'product_uuid')
+                    ->withPivot('qty'); // Inclure la quantité dans la relation
     }
+
+    public function otProducts()
+    {
+        return $this->hasMany(OtProduct::class, 'ot_uuid', 'uuid');
+    }
+
+    public function trajetStart()
+    {
+        return $this->belongsTo(TransportDestination::class, 'trajetStart_uuid', 'uuid');
+    }
+    public function trajetEnd()
+    {
+        return $this->belongsTo(TransportDestination::class, 'trajetEnd_uuid', 'uuid');
+    }
+
+    
 
 }

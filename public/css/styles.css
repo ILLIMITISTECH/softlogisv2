@@ -322,9 +322,15 @@
 .size_9 {
     font-size: 9px;
 }
+.size_10 {
+    font-size: 10px;
+}
 
 .size_12 {
     font-size: 12px;
+}
+.size_13 {
+    font-size: 13px;
 }
 .size_14 {
     font-size: 14px;
