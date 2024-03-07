@@ -398,6 +398,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
         // Module de gestion documentaire
         Route::get('/manager-dossier', [ManageDocumentController::class, 'index'])->name('manager_dossier.index');
+        Route::get('/agentStatDocument', [ManageDocumentController::class, 'statistique'])->name('manager_dossier.stat');
         Route::post('/assign-dossier/{uuid}', [ManageDocumentController::class, 'assign'])->name('manage_folder.assign');
         Route::post('/update-dossier/{uuid}', [ManageDocumentController::class, 'update'])->name('manage_folder.update');
 

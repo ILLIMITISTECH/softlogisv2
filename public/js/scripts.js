@@ -13,6 +13,17 @@ $(".wrapper").on('click', '.deleteConfirmation', function () {
     showConfirm_submit(id, uuid, token, url, title, message, param, param2, param3, urlback);
 });
 
+function notifier(type, message) {
+    Lobibox.notify(type, {
+		pauseDelayOnHover: true,
+		size: 'mini',
+		rounded: true,
+		delayIndicator: true,
+		continueDelayOnInactiveTab: false,
+		position: 'top right',
+		msg: message
+	});
+}
 
 function showConfirm_submit(id, uuid, token, url, title, message, param, param2, param3, urlback) {
     Swal.fire({
@@ -183,6 +194,96 @@ $(".wrapper").on('submit', '.submitForm', function (e) {
 });
 
 
+
+	// chart 4
+
+            // console.log(clickedUrl);
+            var route= $('#chart4').attr('route');
+            // alert('ok');
+              var formData = {
+                  'sourcing': true,
+              };
+              if (route) {
+                
+              $.ajax({
+                  url:route ,
+                  type: 'GET',
+                  data: formData,
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  beforeSend: function() { // if form submit
+                      console.log('data');
+                  },
+                  success: function(data) {
+                      console.log(data.agents);
+                      var options = {
+                          series: [{
+                              name: 'Total Dossier',
+                              data: data.nb_dossiers
+                          }, {
+                              name: 'Dossier en cours',
+                              data: data.nb_dossiers_in_progress
+                          }, {
+                              name: 'Dossier Terminé',
+                              data: data.nb_dossiers_finish
+                          }],
+                          chart: {
+                              foreColor: '#9ba7b2',
+                              type: 'bar',
+                              height: 360
+                          },
+                          plotOptions: {
+                              bar: {
+                                  horizontal: false,
+                                  columnWidth: '55%',
+                                  endingShape: 'rounded'
+                              },
+                          },
+                          dataLabels: {
+                              enabled: false
+                          },
+                          stroke: {
+                              show: true,
+                              width: 2,
+                              colors: ['transparent']
+                          },
+                          title: {
+                              text: 'Taux de traitement documentaire par agent',
+                              align: 'left',
+                              style: {
+                                  fontSize: '14px'
+                              }
+                          },
+                          colors: ['#0d6efd', "#212529", '#ffc107'],
+                          xaxis: {
+                              categories:data.agents,
+  
+                          },
+                          yaxis: {
+                              title: {
+                                  text: '$ (thousands)'
+                              }
+                          },
+                          fill: {
+                              opacity: 1
+                          },
+                          tooltip: {
+                              y: {
+                                  formatter: function(val) {
+                                      return "$ " + val + " thousands"
+                                  }
+                              }
+                          }
+                      };
+  
+                      var chart = new ApexCharts(document.querySelector("#chart4"), options);
+                      chart.render();
+                  }
+              });
+    
+            }
+
 $('.folderCheck').on('click', function () {
     var docuuid = $(this).val();
     var sourcing = $(this).attr('sourcing');
@@ -205,7 +306,8 @@ $('.folderCheck').on('click', function () {
             //loading();
         },
         success: function(data) {
-            console.log("goog".data);
+            // console.log("goog".data);
+            notifier("success", "Document receptionné avec succes");
         }
     });
 });

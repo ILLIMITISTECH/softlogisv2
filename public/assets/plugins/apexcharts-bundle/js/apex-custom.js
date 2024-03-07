@@ -250,6 +250,7 @@ $(function () {
 			}
 		}
 	};
+	
 	var chart = new ApexCharts(document.querySelector("#chart4"), options);
 	chart.render();
 

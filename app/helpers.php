@@ -44,6 +44,12 @@ function countFolderByAgent($uuid)
       
     return $folderByAgentCount;
 }
+function countFolderByAgentStatus($uuid,$status)
+{
+    $folderByAgentCount = DocAssigned::where('etat', 'actif')->whereStatus($status)->where('userUuid', $uuid)->groupBy('userUuid')->count();
+      
+    return $folderByAgentCount;
+}
 function countFolderByBackup($uuid)
 {
     $folderByBackupCount = DocAssigned::where('etat', 'actif')->where('backupUuid', $uuid)->groupBy('backupUuid')->count();
@@ -51,6 +57,13 @@ function countFolderByBackup($uuid)
     return $folderByBackupCount;
 }
 
+/**
+ * Check if a document is assigned to a folder.
+ *
+ * @param datatype $uuid_sourcing description
+ * @param datatype $uuid_doc description
+ * @return bool
+ */
 function isfolderCheck($uuid_sourcing,$uuid_doc)
 {
     $is_assign = DocAssigned::where('etat', 'actif')->where(['folderUuid'=>$uuid_sourcing])->first();
@@ -61,6 +74,23 @@ function isfolderCheck($uuid_sourcing,$uuid_doc)
         ->exists();
           
         return $isfolderCheck;
+    } else {
+        return false;
+    }
+    
+}
+
+function isMyfolderCheck($uuid_sourcing,$uuid_doc)
+{
+    $is_assign = DocAssigned::where('etat', 'actif')->where(['folderUuid'=>$uuid_sourcing])->first();
+    if ($is_assign) {
+        $isfolderCheck = DocAssigned::where('etat', 'actif')->where(['folderUuid'=>$uuid_sourcing])
+        ->whereRaw("JSON_EXTRACT(datasfile, '$.\"$uuid_doc\"') IS NOT NULL")
+        // ->whereRaw("JSON_EXTRACT(datasfile, '$.\"$uuid_doc\".status') = true")
+        ->first();
+        //   dd($isfolderCheck->userUuid);
+        return $isfolderCheck;
+
     } else {
         return false;
     }

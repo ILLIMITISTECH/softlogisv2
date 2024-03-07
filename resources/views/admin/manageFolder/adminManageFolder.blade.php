@@ -161,7 +161,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <div id="chart4"></div>
+                                    <div id="chart4"  route="{{route('admin.manager_dossier.stat')}}"></div>
                                 </div>
                             </div>
                         </div>
@@ -216,13 +216,19 @@
                                             clickedUrl="{{ route('admin.updateStatusFolder') }}"
                                             value="{{ $doc->uuid }}" name="folderCheck"
                                             sourcing="{{ $item->uuid }}">
-                                            <input class="form-check-input folderCheck" unchecked
-                                                clickedUrl="{{ route('admin.updateStatusFolder') }}"
-                                                value="{{ $doc->uuid }}" name="folderCheck"
-                                                sourcing="{{ $item->uuid }}" type="checkbox"
-                                                @if (isfolderCheck($item->uuid, $doc->uuid)) {{ 'checked disabled' }} @endif
-                                                role="switch" id="flexSwitchCheckSuccess">
-                                            {{-- {{isfolderCheck($item->uuid,$doc->uuid)}} --}}
+
+                                            @if (isMyfolderCheck($item->uuid, $doc->uuid))
+                                                <input class="form-check-input folderCheck"
+                                                    clickedUrl="{{ route('admin.updateStatusFolder') }}"
+                                                    value="{{ $doc->uuid }}" name="folderCheck"
+                                                    sourcing="{{ $item->uuid }}" type="checkbox"
+                                                    @if (isfolderCheck($item->uuid, $doc->uuid)) {{ 'checked disabled' }} @endif
+                                                    role="switch" id="flexSwitchCheckSuccess">
+                                            @else
+                                                <input type="checkbox" class="form-check-input folderCheck" disabled
+                                                    readonly>
+                                            @endif
+
                                         </div>
                                     </td>
                                 @endforeach
@@ -236,9 +242,10 @@
                                                     alt=""
                                                     title="{{ ' Lead : ' . $item->folderAssign->user->name . ' ' . $item->folderAssign->user->lastname }}">
                                             @else
-                                            <img src="{{ asset('avatars/plus.png') }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->uuid }}"
-                                            style="cursor:pointer;" width="35" height="35" class="rounded-circle" alt="">
-
+                                                <img src="{{ asset('avatars/plus.png') }}" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal{{ $item->uuid }}"
+                                                    style="cursor:pointer;" width="35" height="35"
+                                                    class="rounded-circle" alt="">
                                             @endif
                                             @if ($item->folderAssign->backup)
                                                 <img src="{{ asset('avatars/' . $item->folderAssign->user->avatar) }}"
@@ -246,15 +253,19 @@
                                                     alt=""
                                                     title="{{ 'Backup: ' . $item->folderAssign->backup->name . ' ' . $item->folderAssign->backup->lastname }}">
                                             @else
-                                                <img src="{{ asset('avatars/plus.png') }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->uuid }}"
-                                                style="cursor:pointer;" width="35" height="35" class="rounded-circle" alt="">
+                                                <img src="{{ asset('avatars/plus.png') }}" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal{{ $item->uuid }}"
+                                                    style="cursor:pointer;" width="35" height="35"
+                                                    class="rounded-circle" alt="">
                                             @endif
                                         </div>
                                     @else
-                                    <div class="user-groups ms-auto">
-                                    <img src="{{ asset('avatars/plus.png') }}" data-bs-toggle="modal" data-bs-target="#assignModal{{ $item->uuid }}"
-                                     style="cursor:pointer;" width="35" height="35" class="rounded-circle" alt="">
-                                    </div>
+                                        <div class="user-groups ms-auto">
+                                            <img src="{{ asset('avatars/plus.png') }}" data-bs-toggle="modal"
+                                                data-bs-target="#assignModal{{ $item->uuid }}"
+                                                style="cursor:pointer;" width="35" height="35"
+                                                class="rounded-circle" alt="">
+                                        </div>
                                     @endif
                                 </td>
 
@@ -285,3 +296,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        
+    })
+</script>

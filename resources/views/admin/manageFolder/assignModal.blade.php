@@ -1,4 +1,4 @@
-<div class="modal fade" id="assignModal{{ $item->uuid }}" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
+<div class="modal fade myModal" id="assignModal{{ $item->uuid }}" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('admin.manage_folder.assign', $item->uuid) }}" method="post" class="submitForm">
@@ -14,15 +14,12 @@
 
                         <div class="input-group">
                             <div class="input-group-text text-light bg-success pe-3">Agent <span class="text-danger">*</span></div>
-                            <select class="form-select" id="prepend-text-single-mainagent" data-placeholder="Choisir un agent" name="userUuid" required>
+                            <select class="form-select " id="mySelect2" data-placeholder="Choisir un agent" name="userUuid" required>
                                <option value=""></option>
                                 @foreach ($allAgents as $agent)
                                     @if (!empty($agent))
                                         <option value="{{ $agent->uuid }}">
-                                            {{-- <span class="">{{ $agent->name.' '. $agent->lastname }} </span>---
-                                            <span class="badge badge-primary badge-rounded bg-primary p-1">{{ countFolderByAgent($agent->uuid); }}</span> --}}
-
-                                            <button type="button" class="btn btn-primary">{{ $agent->name.' '. $agent->lastname }} <span class="badge bg-dark">{{ countFolderByAgent($agent->uuid); }}</span>
+                                           <button type="button" class="btn btn-primary">{{ $agent->name.' '. $agent->lastname }} <span class="badge bg-dark">{{ countFolderByAgent($agent->uuid); }}</span>
                                             </button>
                                         </option>
                                     @endif

@@ -45,6 +45,8 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/step.css') }}">
     <link href="{{ asset('assets/plugins/bs-stepper/css/bs-stepper.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/plugins/notifications/css/lobibox.css') }}">
+
 
     {{-- pdf --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.2/viewer.min.css">
@@ -94,7 +96,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
-
+    <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apex-custom.js') }}"></script> --}}
     <script src="{{ asset('js/scripts.js') }}"></script>
 
     <script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
@@ -105,14 +108,14 @@
 
     <script src="{{ asset('assets/js/index.js') }}"></script>
     <script src="{{ asset('assets/plugins/chartjs/js/chart.js') }}"></script>
+    <script src="{{ asset('assets/plugins/notifications/js/lobibox.js') }}"></script>
 
 
 
     <script src="{{ asset('assets/plugins/chartjs/js/Chart.extension.js') }}"></script>
     <script src="{{ asset('assets/plugins/sparkline-charts/jquery.sparkline.min.js') }}"></script>
     <script src="{{ asset('assets/js/index3.js') }}"></script>
-    <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apex-custom.js') }}"></script>
+
 
     <script src="{{ asset('assets/plugins/bs-stepper/js/bs-stepper.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bs-stepper/js/main.js') }}"></script>
@@ -134,6 +137,12 @@
 
     <script>
         $(document).ready(function() {
+
+          
+            $('#mySelect2').select2({
+        dropdownParent: $('.myModal')
+    });
+
             var table = $('#example2').DataTable({
                 lengthChange: true,
                 buttons: ['copy', 'excel', 'pdf', 'print'],

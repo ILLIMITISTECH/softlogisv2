@@ -60,6 +60,23 @@ class ManageDocumentController extends Controller
         compact('allAgents', 'sourcingByBl', 'docs', 'nombreDossiersAssignes', 'nombreDossiersEnAttente', 'perCentdocAssign','perCentdocNotAssign', 'folderAssign', 'allComments', 'countUserAssignFolder', 'mesDossiers'));
     }
 
+    public function statistique(){
+        $AgentAsign = DocAssigned::select('userUuid')->where('etat', 'actif')->distinct('userUuid')->get();
+        foreach ($AgentAsign as $key => $value) {
+            $nb_dossiers[] =countFolderByAgent($value->userUuid);
+            $nb_dossiers_in_progress[] =countFolderByAgentStatus($value->userUuid,"En cours");
+            $nb_dossiers_finish[] =countFolderByAgentStatus($value->userUuid,"Terminé");
+            $agents[] = User::whereUuid($value->userUuid)->first()->name ;
+        }
+        $datas = array(
+            'nb_dossiers' => $nb_dossiers,
+            'nb_dossiers_in_progress' => $nb_dossiers_in_progress,
+            'nb_dossiers_finish' => $nb_dossiers_finish,
+            'agents' => $agents
+        );
+        return $datas;
+    }
+
     public function apiFolderByUser($uuid)
     {
         $folderByAgentCount = DocAssigned::where('etat', 'actif')->where('userUuid', $uuid)->groupBy('userUuid')->count();
