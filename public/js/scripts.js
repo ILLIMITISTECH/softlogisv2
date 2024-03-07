@@ -210,6 +210,85 @@ $('.folderCheck').on('click', function () {
     });
 });
 
+$(document).on('change blur', '.selectedProductUuid', function () {
+    var selectedOption = $(this).find('option:selected');
+    var selectedProductId = selectedOption.val(); 
+    var selectedProductUuid = selectedOption.data('uuid'); 
+    var clickedUrl = '/tag-products-by-numero-serie/' + selectedProductId;
+
+    // Cibler uniquement les éléments dans la ligne sélectionnée
+    var $row = $(this).closest('.add_new_prod');
+    var $designation = $row.find('.designation');
+    var $longueur = $row.find('.longueur');
+    var $largeur = $row.find('.largeur');
+    var $hauteur = $row.find('.hauteur');
+    var $poids = $row.find('.poids');
+
+    $.ajax({
+        url: clickedUrl,
+        type: 'GET',
+        beforeSend: function() {
+            // 
+        },
+        success: function(response) {
+            var product = response.products;
+            // Mettre à jour les valeurs des champs dans la ligne sélectionnée
+            $designation.attr('placeholder', response.productByfamilly);
+            $longueur.attr('placeholder', product.longueur);
+            $largeur.attr('placeholder', product.largeur);
+            $hauteur.attr('placeholder', product.hauteur);
+            $poids.attr('placeholder', product.poid_tonne);
+        },
+        error: function(xhr, status, error) {
+            // 
+        }
+    });
+});
+$(".add_new_product").on('click', '.sup_new_box_doc', function() {
+    var i= $(this,'.sup_new_box_doc').attr('id');
+     $('#'+i).remove();
+});
+
+// Script pour cloner un bloc d'ajout de produit OT
+$(".add_new_box_product").on("click", function () {
+    var $clone = $('.add_new_prod:last').clone();
+    
+    $clone.find('input[type="number"]').val(0); 
+    $clone.find('input[type="text"]').val(''); 
+    $clone.find('input[type="text"]').attr('placeholder', ''); 
+
+    $clone.find('.selectedProductUuid').val(''); 
+    
+    // Attribution d'identifiants uniques aux éléments clonés
+    var i = $('.add_new_prod').length;
+    $clone.find('.selectedProductUuid').attr('id', 'single-select-field-' + i);
+    $clone.find('.designation').attr('id', 'designation_' + i); 
+    $clone.find('.longueur').attr('id', 'longueur_' + i); 
+    $clone.find('.largeur').attr('id', 'largeur_' + i); 
+    $clone.find('.hauteur').attr('id', 'hauteur_' + i); 
+    $clone.find('.poids').attr('id', 'poids_' + i); 
+    
+    // Insertion de la ligne clonée après la dernière ligne existante
+    $clone.insertAfter('.add_new_prod:last');
+    
+    // Mise à jour de l'identifiant pour la prochaine ligne clonée
+    i++;
+    $clone.attr('id', i);
+    $clone.find('.sup_new_box_doc').attr('id', i);
+    
+    // Réinitialisation du menu déroulant
+    $('#single-select-field-' + i).val('');
+});
+
+
+
+
+
+
+$(".add_new_content").on('click', '.sup_new_box_doc', function() {
+    var i= $(this,'.sup_new_box_doc').attr('id');
+     $('#'+i).remove();
+});
 
 // window.dataLayer = window.dataLayer || [];
 //   function gtag(){dataLayer.push(arguments);}
@@ -289,20 +368,7 @@ $('.add_new_content').on('change', '.changeDocument', function() {
     $('#p'+i).val("");
 });
 
-// Script pour clone de block ajout de produit OT
-$(".add_new_box_product").on("click", function () {
-    var $clone= $('.add_new_prod:last').clone();
-    $clone.insertAfter('.add_new_prod:last');
-    var i=$('.add_new_prod:last').attr('id');
-    i= Number(i)+1;
-    $('.add_new_prod:last').attr('id',i);
-    $('.sup_new_box_doc:last').attr('id',i);
-});
 
-$(".add_new_product").on('click', '.sup_new_box_doc', function() {
-    var i= $(this,'.sup_new_box_doc').attr('id');
-     $('#'+i).remove();
-});
 
 function addNewDocument() {
     // Clone un modèle de document

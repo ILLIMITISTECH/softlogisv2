@@ -69,6 +69,7 @@ class Sourcing extends Model
         return $this->hasMany(Sourcing_product::class, 'sourcing_id');
     }
 
+
     public function odLivraisons()
     {
         return $this->hasMany(OdLivraison::class, 'sourcing_id');

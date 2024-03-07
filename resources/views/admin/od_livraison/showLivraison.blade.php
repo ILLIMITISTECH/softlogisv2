@@ -20,7 +20,14 @@
                 </button>
             </div>
             @include('admin.stock.reception') --}}
-
+            <div class="ms-auto">
+                <div class="btn-group float-lg-end">
+                    <button type="button" class="btn btn-primary btn-sm rounded my-auto text-white">
+                        <a href="{{route('admin.od_livraison.downloadOtPDF', $oDLivraison->id)}}"
+                            class="text-center text-decoration-none text-white"><i class="bx bxs-file-pdf"></i> Export PDF</a>
+                    </button>
+                </div>
+            </div>
         </div>
         <!--end breadcrumb-->
 
@@ -35,44 +42,153 @@
                                 </div>
                             </div>
                             <hr class="mb-2">
+
                             <div class="card-body size_14">
-                                <div class="row mb-3 mt-3">
-                                    <div class="col-md-4">
-                                        <h6 class="mb-0">N*:</h6>
-                                    </div>
-                                    <div class="col-md-8 text-secondary">
-                                        <div class="text-muted">{{ ($oDLivraison->code) ? $oDLivraison->code : '--' }}</div>
-                                    </div>
-                                </div>
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            {{-- <p class="mb-0">Transporteur</p>
+                                            <div class="my-2">
+                                                <div class="col-md-4">
+                                                    <h6 class="mb-0 text-muted">{{ $oDLivraison->transporteur->raison_sociale ?? '--' }}</h6>
+                                                </div>
+                                                <div class="col-md-6 text-secondary">
+                                                    <div class="text-muted">{{ ($oDLivraison->transporteur->email ?? '') ? $oDLivraison->transporteur->email : '--' }}</div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @if ($oDLivraison->transporteur !== null)
+                                                    <a href="{{ route('admin.company.show', $oDLivraison->transporteur->uuid) }}" class="btn btn-primary">Plus d'info</a>
+                                                    @endif
+                                                </div>
+                                            </div> --}}
 
-                                <p class="mb-0">Transporteur selectionné</p>
-                                <div class="row my-2">
-                                    <div class="col-md-4">
-                                        <h6 class="mb-0 text-muted">{{ $oDLivraison->transporteur->raison_sociale ?? '--' }}</h6>
-                                    </div>
-                                    <div class="col-md-6 text-secondary">
-                                        <div class="text-muted">{{ ($oDLivraison->transporteur->email ?? '') ? $oDLivraison->transporteur->email : '--' }}</div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        @if ($oDLivraison->transporteur !== null)
-                                        <a href="{{ route('admin.company.show', $oDLivraison->transporteur->uuid) }}" class="btn btn-primary">Plus d'info</a>
-                                        @endif
-                                    </div>
-                                </div>
-                                <hr class="my-2">
-                                <div class="row col-12">
-                                    <div class="col-md-4">
-                                        <h6 class="mb-0 size_14">Note</h6>
-                                    </div>
-                                    <div class="col-md-8 text-secondary">
-                                        <p class="form-control disabled text-start" style="min-height: 60px">
-                                            {{ $oDLivraison->note ?? '--' }}
-                                        </p>
-                                    </div>
-                                </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex flex-column align-items-center text-center">
+                                                        <img src="{{ asset('files/' . $oDLivraison->transporteur->logo) }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="75 " height="75">
+                                                        <div class="mt-3">
+                                                            <h4>{{ $oDLivraison->transporteur->raison_sociale ?? '--' }}</h4>
+                                                            
 
+                                                            
+                                                            <button class="btn btn-primary size_12 p-1 mt-2">
+                                                                @if ($oDLivraison->transporteur !== null)
+                                                                <a href="{{ route('admin.company.show', $oDLivraison->transporteur->uuid) }}" class="btn btn-primary p-0 px-3">Info</a>
+                                                                @endif
+                                                            </button>
+                                                            {{-- <button class="btn btn-outline-primary">Message</button> --}}
+                                                        </div>
+                                                    </div>
+                                                    <hr class="my-4" />
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                            <h6 class="mb-0">
+                                                                <i class="fadeIn animated bx bx-map"></i>{{  $oDLivraison->transporteur->localisation ?? '--' }}
+                                                            </h6>
+                                                        </li>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                            <h6 class="mb-0"><i class="lni lni-phone"></i>
+                                                                {{ $oDLivraison->transporteur->phone ?? '--' }}
+                                                            </h6>
+                                                        </li>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                            <h6 class="mb-0">
+                                                                <i class="fadeIn animated bx bx-envelope-open"></i>
+                                                                {{  $oDLivraison->transporteur->email ?? '--' }}
+                                                            </h6>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <h6 class="mb-0 text-end size_14">N*:</h6>
+                                                </div>:
+                                                <div class="col-md-7 text-secondary">
+                                                    <div class="text-muted size_13">{{ ($oDLivraison->code) ? $oDLivraison->code : '--' }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-4">
+                                                    <h6 class="mb-0 text-end size_14">Date</h6>
+                                                </div>:
+                                                <div class="col-md-7 text-secondary">
+                                                    <div class="text-muted size_13">{{ $oDLivraison->created_at->format('d/m/Y') }}</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <h6 class="mb-0 text-end size_14">N°Dossier</h6>
+                                                </div>:
+                                                <div class="col-md-7 text-secondary">
+                                                    <div class="text-muted size_13">{{ $oDLivraison->numFolder ?? '--' }}</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row my-2">
+                                                <div class="col-md-4">
+                                                    <h6 class="mb-0 text-end size_14">N° BL</h6>
+                                                </div>:
+                                                <div class="col-md-7 text-secondary">
+                                                    <div class="text-muted size_13">{{ $oDLivraison->numBl ?? '--' }}</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <h6 class="mb-0 text-end size_13">Trajet</h6>
+                                                </div>:
+                                                <div class="col-md-7 text-secondary row">
+                                                    <div class="text-start col-3 size_12 "><strong>{{ $oDLivraison->trajetStart->libelle ?? '--' }}</strong></div> 
+                                                    <div class="col-1 size_12">à</div>
+                                                    <div class="text-start col-3 size_12 "><strong>{{ $oDLivraison->trajetEnd->libelle ?? '--' }}</strong></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-2" >
+                                                <div class="col-md-4">
+                                                    <h6 class="mb-0 text-end size_14">Ref Cotation</h6>
+                                                </div>:
+                                                <div class="col-md-7 text-secondary">
+                                                    <div class="text-muted size_13">{{ $oDLivraison->refCotation ?? '--' }}</div>
+                                                </div>
+                                            </div>
+
+                                            <hr class="my-2">
+                                            <div class="col-12">
+                                                <div class="col-12">
+                                                    <h6 class="mb-0 size_14">Note</h6>
+                                                </div>
+                                                <div class="col-12 text-secondary">
+                                                    <p class="form-control disabled text-start" style="min-height: 100px">
+                                                        {{ $oDLivraison->note ?? '--' }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <hr class="my-2">
+                                            <div class="col-12 row">
+                                                <div class="col-8 row">
+                                                    <div class="col text-end">Creer par</div>:
+                                                    <div class="col">{{ $oDLivraison->created_by ?? '--' }}</div>
+                                                </div>
+                                                <div class="col row">
+                                                    <div class="col text-end">Le</div>:
+                                                    <div class="col">{{ $oDLivraison->created_at->format('d/m/Y') ?? '--' }}</div>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
+
+
                         <div class="content">
                             <div class="col-sm-12">
                                 <div class="card">
@@ -84,82 +200,36 @@
                                             <table class="table mb-0">
                                                 <thead class="table-light">
                                                     <tr class="text-uppercase size_14">
-                                                        <th>N* Serie</th>
+                                                        <th>Nbre</th>
                                                         <th>Famille du produit</th>
-                                                        <th>Statut</th>
-                                                        <th>Conformité</th>
+                                                        <th>Long (m)</th>
+                                                        <th>larg (m)</th>
+                                                        <th>HAUT (m)</th>
+                                                        <th>POIDS (t)</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
+                                                
 
                                                 <tbody style="font-size: 12px !important">
-                                                    @if ($oDLivraison->sourcing)
-                                                        @forelse ($oDLivraison->sourcing->products as $product)
+                                                    @if ($oDLivraison->otProducts->count() > 0)
+                                                        @forelse ($oDLivraison->otProducts as $otProduct)
                                                             <tr>
                                                                 <td>
-                                                                    <h6 class="mb-0 font-14">#{{ $product->product->numero_serie }}</h6>
-                                                                </td>
-                                                                <td>{{ $product->product->familly->libelle }}</td>
-                                                                <td>
-                                                                    @if ($product->product->status == 'enFabrication')
-                                                                        <span class="badge bg-info text-light text-uppercase p-2">En Fabrication</span>
-                                                                    @endif
-                                                                    @if ($product->product->status == 'sortiUsine')
-                                                                        <span class="badge bg-warning text-uppercase text-light p-2">Sortie d'usine</span>
-                                                                    @endif
-                                                                    @if ($product->product->status == 'enExpedition')
-                                                                    <span class="badge badge-info p-2 bg-info">
-                                                                        En cours d'expedition import
-                                                                    </span>
-                                                                    @endif
-                                                                    @if ($product->product->status == 'arriverAuPod')
-                                                                    <span class="badge badge-success p-2 bg-success">
-                                                                        Arrivé au POD
-                                                                    </span>
-                                                                    @endif
-                                                                    @if ($product->product->status == 'stocked')
-                                                                    <span class="badge bg-warning py-2 rounded">Reçu/Stocké</span>
-                                                                    @endif
-                                                                    @if ($product->product->status == 'expEnCours')
-                                                                    <span class="badge bg-primary py-2 rounded">En cours d'expedition Export</span>
-                                                                    @endif
-                                                                    @if ($product->product->status == 'delivered')
-                                                                        <span class="badge bg-success py-2 rounded">Livrer</span>
-                                                                    @endif
-
+                                                                    {{ $otProduct->qty ?? '--' }}
                                                                 </td>
                                                                 <td>
-                                                                    @php
-                                                                        $productConformity = App\Models\stockUpdate::where('product_id', $product->product->id)->first();
-                                                                        if ($productConformity) {
-                                                                            $result = $productConformity->conformity;
-                                                                        }
-                                                                    @endphp
-
-                                                                    @if ($productConformity)
-                                                                        @if ($result === '')
-                                                                        <span class="badge badge-warning p-2 bg-warning">
-                                                                            Pas encore receptionné
-                                                                        </span>
-                                                                        @endif
-
-                                                                        @if ($result === 'off')
-                                                                            <span class="badge badge-danger p-2 bg-danger">
-                                                                                Non conforme
-                                                                            </span>
-                                                                        @elseif ($result === 'on')
-                                                                            <span class="badge badge-success p-2 bg-success">
-                                                                                Conforme
-                                                                            </span>
-                                                                        @endif
-
-                                                                    @endif
+                                                                    <h6 class="mb-0 font-14">
+                                                                        {{ $otProduct->product->familly->libelle ?? '--' }}
+                                                                    </h6>
                                                                 </td>
-
-
+                                                                <td>{{ $otProduct->product->longueur ?? '--' }}</td>
+                                                                <td>{{ $otProduct->product->largeur ?? '--' }}</td>
+                                                                <td>{{ $otProduct->product->hauteur ?? '--' }}</td>
+                                                                <td>{{ $otProduct->product->poid_tonne ?? '--' }}</td>
                                                                 <td class="d-flex justify-content-end text-end">
-                                                                    <button type="button" class="btn btn-info btn-sm radius-30 px-3 size_12">
-                                                                        <a href="{{ route('admin.article.show', ['uuid' => $product->product->uuid]) }}" class="text-uppercase text-decoration-none text-light py-1">Detail</a>
+                                                                    <button type="button" class="btn btn-sm radius-30 px-2 size_10">
+                                                                        <a href="{{ route('admin.article.show', ['uuid' => $otProduct->product->uuid]) }}" class="text-uppercase tex-none  py-1 text-primary"><i class=" size_10 bx bx-show"></i></a>
                                                                     </button>
                                                                 </td>
 

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use PDF;
 use App\Models\Article;
 use App\Models\Company;
 use App\Models\Entrepot;
 use App\Models\Sourcing;
+// use Barryvdh\DomPDF\PDF;
+use App\Models\OtProduct;
 use App\Mail\LogisticaMail;
 use App\Models\OdLivraison;
 use Illuminate\Support\Str;
@@ -35,77 +38,6 @@ class OdLivraisonController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-
-    //     DB::beginTransaction();
-    //     $user = auth()->user()->name . ' ' . auth()->user()->lastname;
-    //     try {
-    //         $saving= OdLivraison::create([
-    //             'uuid'=>Str::uuid(),
-    //             'transporteur_uuid' => $request->transporteur_uuid,
-    //             'date_livraison' => $request->date_livraison,
-    //             'lieu_livraison' => $request->lieu_livraison,
-    //             'note' => $request->note,
-    //             'user_uuid' => $user,
-    //             'etat' => 'actif',
-    //             'code' => Refgenerate(OdLivraison::class, 'ODL', 'code'),
-    //         ]);
-
-    //         if($request->has('files')){
-    //             foreach($request->file('files') as $key => $file){
-    //              $imageName = Str::uuid().'.'.$file->getClientOriginalExtension();
-
-    //              $destinationPath = public_path('documents/files');
-    //              $file->move($destinationPath, $imageName);
-    //              $filePath = $destinationPath . '/' . $imageName;
-
-    //              $livraison_file = LivraisonFile::create([
-    //                 'uuid' => Str::uuid(),
-    //                 'name' => $request->input('name')[$key],
-    //                 'livraison_id' => $saving->id,
-    //                 'files' => $imageName,
-    //                 'filePath' => $filePath,
-    //              ]);
-
-    //             $livraison_file->filePath = $filePath;
-    //             }
-    //         }
-    //         $saving->save();
-
-    //         if ($saving) {
-
-    //             $dataResponse =[
-    //                 'type'=>'success',
-    //                 'urlback'=>"back",
-    //                 'message'=>"Enregistré avec succes!",
-    //                 'code'=>200,
-    //             ];
-    //             DB::commit();
-    //        } else {
-    //             DB::rollback();
-    //             $dataResponse =[
-    //                 'type'=>'error',
-    //                 'urlback'=>'',
-    //                 'message'=>"Erreur lors de l'enregistrement!",
-    //                 'code'=>500,
-    //             ];
-    //        }
-
-    //     } catch (\Throwable $th) {
-    //         DB::rollBack();
-    //         $dataResponse =[
-    //             'type'=>'error',
-    //             'urlback'=>'',
-    //             'message'=>"Erreur systeme! $th",
-    //             'code'=>500,
-    //         ];
-    //     }
-    //     return response()->json($dataResponse);
-    // }
 
     public function store(Request $request, $uuid)
     {
@@ -140,11 +72,18 @@ class OdLivraisonController extends Controller
                 Sourcing::where(['uuid' => $request->input('sourcing_id')])->update([
                     "statut" => "odlivraison",
                 ]);
-            }
 
-            // if ($request->has('product_ids')) {
-            //     $saving->products()->attach($request->product_ids);
-            // }
+                $qtyArray = $request->input('qty');
+                $productUuidArray = $request->input('product_uuid');
+
+                foreach ($productUuidArray as $key => $productUuid) {
+                    OtProduct::create([
+                        'qty' => $qtyArray[$key],
+                        'ot_uuid' => $saving->uuid,
+                        'product_uuid' => $productUuid,
+                    ]);
+                }
+            }
 
             $sourcingProducts = $sourcing->products;
 
@@ -223,9 +162,6 @@ class OdLivraisonController extends Controller
         return response()->json($dataResponse);
     }
 
-
-
-
     /**
      * Display the specified resource.
      */
@@ -233,7 +169,7 @@ class OdLivraisonController extends Controller
     {
 
         $oDLivraison = OdLivraison::where(['uuid'=>$id, 'etat'=>'actif'])->first();
-
+     
         $transporteurs = Company::where(['type'=>'transporteur', 'etat'=>'actif'])->get();
 
         $livraison_files = LivraisonFile::where(['livraison_id'=>$oDLivraison->id])->where('etat', 'actif')->get();
@@ -244,6 +180,16 @@ class OdLivraisonController extends Controller
 
         // dd($sourcing_demo->products);
         return view('admin.od_livraison.showLivraison',compact('livraison_files','oDLivraison','transporteurs', 'entrepots'));
+    }
+
+    public function downloadOtPDF($id) {
+
+        $otPdf = OdLivraison::find($id);
+        
+        $pdf = PDF::loadView('admin.od_livraison.viewPdf', compact('otPdf'));
+
+        return $pdf->download('ordre_de_transport.pdf');
+
     }
 
     /**
