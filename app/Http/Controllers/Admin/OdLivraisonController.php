@@ -17,6 +17,7 @@ use App\Models\LivraisonFile;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class OdLivraisonController extends Controller
 {
@@ -113,25 +114,25 @@ class OdLivraisonController extends Controller
 
                 $transporteurName = Company::where('uuid', $request->transporteur_uuid)->first();
 
-                $mailData = [
-                    'title' => 'ORDRE DE TRANSPORT JALO LOGISTIQUE',
-                    'body' => 'Bonjour Chers '.$transporteurName->raison_sociale.' Je vous transmet en P.J l\'ensemble des documents relatif  <br><br> En attente de votre retour , je reste disponible au besoin <br><br>
-                     <strong>Date de livraison : </strong>'.$request->date_livraison.'
-                     <br>',
-                ];
+                // $mailData = [
+                //     'title' => 'ORDRE DE TRANSPORT JALO LOGISTIQUE',
+                //     'body' => 'Bonjour Chers '.$transporteurName->raison_sociale.' Je vous transmet en P.J l\'ensemble des documents relatif  <br><br> En attente de votre retour , je reste disponible au besoin <br><br>
+                //      <strong>Date de livraison : </strong>'.$request->date_livraison.'
+                //      <br>',
+                // ];
 
-                $emailSubject = 'Jalo Logistique - ORDRE DE TRANSPORT';
+                // $emailSubject = 'Jalo Logistique - ORDRE DE TRANSPORT';
 
-                // Mail::to($transporteurName->email)->send(new LogisticaMail($mailData,$emailSubject));
+                // // Mail::to($transporteurName->email)->send(new LogisticaMail($mailData,$emailSubject));
 
-                $mail = new LogisticaMail($mailData, $emailSubject);
+                // $mail = new LogisticaMail($mailData, $emailSubject);
 
-                // Attache les fichiers au message
-                foreach ($saving->files as $file) {
-                    $mail->attach($file->filePath);
-                }
+                // // Attache les fichiers au message
+                // foreach ($saving->files as $file) {
+                //     $mail->attach($file->filePath);
+                // }
 
-                Mail::to($transporteurName->email)->send($mail);
+                // Mail::to($transporteurName->email)->send($mail);
 
                 $dataResponse =[
                     'type'=>'success',
@@ -169,6 +170,10 @@ class OdLivraisonController extends Controller
     {
 
         $oDLivraison = OdLivraison::where(['uuid'=>$id, 'etat'=>'actif'])->first();
+
+        // dd($oDLivraison->files->filePath);
+
+       
      
         $transporteurs = Company::where(['type'=>'transporteur', 'etat'=>'actif'])->get();
 
@@ -180,6 +185,68 @@ class OdLivraisonController extends Controller
 
         // dd($sourcing_demo->products);
         return view('admin.od_livraison.showLivraison',compact('livraison_files','oDLivraison','transporteurs', 'entrepots'));
+    }
+
+    public function sendOtEmail(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $otPdf = OdLivraison::find($id);
+            $pdf = PDF::loadView('admin.od_livraison.viewPdf', compact('otPdf'));
+            $pdfContent = $pdf->output();
+
+            $recipientEmail = $request->input('destinataire');
+            $emailSubject = $request->input('objet');
+            $message = $request->input('message');
+
+            $mailData = [
+                'title' => $emailSubject,
+                'body' => $message,
+            ];
+
+            $mail = new LogisticaMail($mailData, $emailSubject);
+            $mail->attachData($pdfContent, 'OrdreTransport.pdf', ['mime' => 'application/pdf']);
+
+             // Ajout des fichiers joints
+            foreach ($otPdf->files as $livraisonFile) {
+                $fileContent = file_get_contents($livraisonFile->filePath);
+                $mail->attachData($fileContent, $livraisonFile->name, ['mime' => 'application/pdf']);
+            }
+
+            $mailSending = Mail::to($recipientEmail)->send($mail);
+
+            if ($mailSending) {
+
+                $dataResponse =[
+                    'type'=>'success',
+                    'urlback'=>"back",
+                    'message'=>"Enregistré avec succes!",
+                    'code'=>200,
+                ];
+                DB::commit();
+
+           } else {
+                DB::rollback();
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>"Erreur lors de l'enregistrement!",
+                    'code'=>500,
+                ];
+           }
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>"Erreur systeme! $th",
+                'code'=>500,
+            ];
+        }
+        return response()->json($dataResponse);
+
     }
 
     public function downloadOtPDF($id) {

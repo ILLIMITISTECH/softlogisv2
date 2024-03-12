@@ -1,7 +1,7 @@
-<div class="modal fade" id="editModal{{ $item->uuid }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal{{ $item->folderAssign->uuid }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('admin.manage_folder.update', $item->uuid) }}" method="post" class="submitForm">
+            <form action="{{ route('admin.manage_folder.update', $item->folderAssign->uuid) }}" method="post" class="submitForm">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Modifié l'agent</h5>
@@ -15,40 +15,31 @@
                         <div class="input-group">
                             <div class="input-group-text text-light bg-success pe-3">Agent <span class="text-danger">*</span></div>
                             <select class="form-select" id="prepend-text-single-mainagent" data-placeholder="Choisir un agent" name="userUuid">
-                                @if ($item->folderAssign)
-                                    <option value="{{ $item->folderAssign->user->uuid }}">
-                                        @if($item->folderAssign->user)
-                                            {{$item->folderAssign->user->name.' '.$item->folderAssign->user->lastname}}
-                                        @else
-                                            Non Assigné
-                                        @endif
+                                @if (!empty($item->folderAssign->userUuid))
+                                    <option value="{{ $item->folderAssign->userUuid }}">
+                                        {{$item->folderAssign->user->name.' '.$item->folderAssign->user->lastname}}
                                     </option>
+                                @else
+                                    @foreach ($allAgents as $agent)
+                                            <option value="{{ $agent->uuid }}">{{ $agent->name.' '. $agent->lastname }}</option>
+                                    @endforeach
                                 @endif
-
-                                @foreach ($allAgents as $agent)
-                                    @if (!empty($agent))
-                                        <option value="{{ $agent->uuid }}">{{ $agent->name.' '. $agent->lastname }}</option>
-                                    @endif
-                                @endforeach
                             </select>
                         </div>
                         <div class="input-group my-3">
                             <div class="input-group-text text-light bg-primary">Backup</div>
                             <select class="form-select" id="prepend-text-single-backup" data-placeholder="Choisir un agent" name="backupUuid">
-                                @if (!empty($item->folderAssign->backup))
-                                    <option value="{{ $item->folderAssign->backup->uuid }}">
-                                        @if($item->folderAssign->backup)
-                                            {{$item->folderAssign->backup->name.' '.$item->folderAssign->backup->lastname}}
-                                        @else
-                                            Non Assigné
-                                        @endif
+                                @if (!empty($item->folderAssign->backupUuid))
+                                    
+                                    <option value="{{ $item->folderAssign->backupUuid }}">
+                                        {{$item->folderAssign->backup->name.' '.$item->folderAssign->backup->lastname}}
                                     </option>
-                                @endif
-                                @foreach ($allAgents as $agent)
-                                    @if (!empty($agent))
+                                @else
+                                    <option></option>
+                                    @foreach ($allAgents as $agent)
                                         <option value="{{ $agent->uuid }}">{{ $agent->name.' '. $agent->lastname }}</option>
-                                    @endif
-                                @endforeach
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>

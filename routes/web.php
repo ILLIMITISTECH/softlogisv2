@@ -245,6 +245,9 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
             Route::get('/download-ot-PDF/{id}', [OdLivraisonController::class, 'downloadOtPDF'])->name('od_livraison.downloadOtPDF');
 
+            // fonction envoie par mail de l'ordre de transport
+            Route::post('/send-ot-email/{id}', [OdLivraisonController::class, 'sendOtEmail'])->name('send.ot.email');
+
         // Gestion de stock Reception (in sourcing)
 
         Route::post('/store/stock_reception', [StockController::class, 'receiveProducts'])->name('stock_reception.store');
@@ -302,6 +305,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::post('/destroy/to-expedition/{uuid}', [ExTransportController::class, 'destroy'])->name('transport.destroy');
             Route::get('/show/transport/{uuid}', [ExTransportController::class, 'show'])->name('expTransport.show');
             Route::post('/destockage-export', [ExTransportController::class, 'destockage'])->name('export.destockage');
+
+            
 
 
         // Facturation

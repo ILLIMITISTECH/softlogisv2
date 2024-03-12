@@ -26,6 +26,8 @@
                         <a href="{{route('admin.od_livraison.downloadOtPDF', $oDLivraison->id)}}"
                             class="text-center text-decoration-none text-white"><i class="bx bxs-file-pdf"></i> Export PDF</a>
                     </button>
+
+                    <button class="btn btn-primary btn-sm rounded  ms-2 my-auto text-white" data-bs-toggle="modal" data-bs-target="#addSendMail{{ $oDLivraison->id }}"><i class="bx bxs-envelope"></i>Envoyer</button>
                 </div>
             </div>
         </div>
@@ -161,7 +163,7 @@
                                             <hr class="my-2">
                                             <div class="col-12">
                                                 <div class="col-12">
-                                                    <h6 class="mb-0 size_14">Note</h6>
+                                                    <h6 class="mb-0 size_14">Note <span class="text-muted">(interne)</span></h6>
                                                 </div>
                                                 <div class="col-12 text-secondary">
                                                     <p class="form-control disabled text-start" style="min-height: 100px">
@@ -333,6 +335,14 @@
         {{-- Modal de creation de documents  --}}
 
         @include('admin.od_livraison.files.addModal')
+        @include('admin.od_livraison.sendMail')
+
+        <script>
+            $(function () {
+                $('[data-bs-toggle="popover"]').popover();
+                $('[data-bs-toggle="tooltip"]').tooltip();
+            })
+        </script>
     </div>
 
 @endsection

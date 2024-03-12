@@ -243,7 +243,7 @@
                                                     title="{{ ' Lead : ' . $item->folderAssign->user->name . ' ' . $item->folderAssign->user->lastname }}">
                                             @else
                                                 <img src="{{ asset('avatars/plus.png') }}" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $item->uuid }}"
+                                                    data-bs-target="#editModal{{ $item->folderAssign->uuid }}"
                                                     style="cursor:pointer;" width="35" height="35"
                                                     class="rounded-circle" alt="">
                                             @endif
@@ -254,7 +254,7 @@
                                                     title="{{ 'Backup: ' . $item->folderAssign->backup->name . ' ' . $item->folderAssign->backup->lastname }}">
                                             @else
                                                 <img src="{{ asset('avatars/plus.png') }}" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $item->uuid }}"
+                                                    data-bs-target="#editModal{{ $item->folderAssign->uuid }}"
                                                     style="cursor:pointer;" width="35" height="35"
                                                     class="rounded-circle" alt="">
                                             @endif
@@ -286,7 +286,9 @@
                             </tr>
                             {{-- include --}}
                             @include('admin.manageFolder.assignModal')
-                            @include('admin.manageFolder.editModal')
+                            @if ($item->folderAssign)
+                                @include('admin.manageFolder.editModal')
+                            @endif
                             @include('admin.manageFolder.commentModal')
                         @endforeach
 

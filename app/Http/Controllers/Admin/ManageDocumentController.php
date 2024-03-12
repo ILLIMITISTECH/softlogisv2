@@ -206,7 +206,7 @@ class ManageDocumentController extends Controller
         DB::beginTransaction();
         try {
 
-            $saving= DocAssigned::where('uuid', $id)->update([
+            $saving= DocAssigned::where('uuid', $request->folderUuid)->update([
                 'folderUuid' => $request->folderUuid,
                 'userUuid' => $request->userUuid,
                 'backupUuid' => $request->backupUuid,
