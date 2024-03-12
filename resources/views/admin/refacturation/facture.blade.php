@@ -192,7 +192,9 @@
                                             </thead>
                                             <tbody>
                                                 <tr class="size_12">
+                                                    @if (!empty($user))
                                                     <td class="id">{{ $user->name.' '.$user->lastname}}</td>
+                                                    @endif
                                                     <td class="poste">{{ $refacturation->poste_occuper ?? 'N/A' }}</td>
                                                     <td class="condition-paiement">{{ $refacturation->condition_paiement ?? 'N/A' }}
                                                     </td>
