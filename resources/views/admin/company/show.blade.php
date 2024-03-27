@@ -13,7 +13,7 @@
                 </ol>
             </nav>
         </div>
-        <div class="ms-auto">
+        {{-- <div class="ms-auto">
 
             @if($company->isActive === 'true')
             <form action="{{ route('admin.company.block', $company->id) }}" method="post" class="submitForm">
@@ -31,7 +31,7 @@
             </form>
             @endif
 
-        </div>
+        </div> --}}
     </div>
     <!--end breadcrumb-->
     <div class="container">
@@ -50,38 +50,48 @@
                             </div> --}}
 
                             <div class="d-flex flex-column align-items-center text-center gy-2 position-relative">
-                                @if ($company->isActive == 'false')
+                                {{-- @if ($company->isActive == 'false')
                                   <div class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger text-uppercase" style="transform: skew(-20deg);">Inactive</div>
                                 @else
                                   <div class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-success text-uppercase" style="transform: skew(-20deg);">Active</div>
+                                @endif --}}
+
+                                @if ($company->logo == 'default_logo.jpg')
+                               
+                                    <img src="https://cdn.pixabay.com/photo/2017/08/30/11/45/building-2696768_640.png" class="rounded-circle" alt="Admin" width="110">
+                                @else
+                                    <img src="{{ asset('files/' . $company->logo) }}" class="rounded-circle" alt="Admin" width="110">
                                 @endif
-                                <img src="{{ asset('files/' . $company->logo) }}" class="rounded-circle" alt="Admin" width="110">
+                                
+                                
                                 <div class="mt-3">
-                                  <h4 class="text-uppercase">{{ $company->raison_sociale }}</h4>
-                                  <p class="text-secondary mb-2 text-capitalize">{{ $company->type }}</p>
+                                  <h4 class="text-uppercase">{{ $company->raison_sociale ?? "--"}}</h4>
+                                  <p class="text-secondary mb-2 text-capitalize">{{ $company->type ?? "--" }}</p>
                                 </div>
-                              </div>
-
-
-                            <hr class="my-4" />
+                            </div>
+                            <hr class=""/>
                             <ul class="list-group list-group-flush">
                                 @if ($company->type === 'transporteur')
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Voie d'expedition :</h6>
-                                    <span class="text-uppercase">{{ $company->voie_transport }}</span>
+                                    <span class="text-uppercase">{{ $company->voie_transport ?? "--"}}</span>
                                 </li>
                                 @endif
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    <h6 class="mb-0">Regis de commerce :</h6>
+                                    <span class="text-secondary">{{ $company->identification ?? '--'}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Email :</h6>
-                                    <span>{{ $company->email }}</span>
+                                    <span class="text-secondary">{{ $company->email ?? '--'}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Télephone :</h6>
-                                    <span class="text-secondary">{{ $company->phone }}</span>
+                                    <span class="text-secondary">{{ $company->phone ?? '--'}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Localisation :</h6>
-                                    <span class="text-secondary">{{ $company->localisation }}</span>
+                                    <span class="text-secondary">{{ $company->localisation ?? '--'}}</span>
                                 </li>
 
                             </ul>
@@ -90,71 +100,66 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="card">
+                        <div class="card-header py-0 pe-0">
+                            {{-- <div class="d-flex justify-content-end align-item-center my-0 py-0" >
+                                <div class="d-flex justify-content-end align-item-center my-0 py-0 row" style="max-width: 300px">
+                                    
+                                    <button type="button" class="btn col" class="text-uppercase size_12">Mail</span>
+                                    </button>
+
+                                    <button type="button" class="btn col" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" 
+                                        data-bs-content='
+                                        <div class="card my-0">
+                                            <div class="card-body">
+                                                {{ $company->contact_one_name. ' ' .$company->contact_one_lastName }}
+                                                <a href = "mailto: {{ $company->contact_one_email ?? '--'}}">{{ $company->contact_one_email ?? '--'}}</a>
+                                            </div>
+                                        </div>
+                                        <div class="card mt-1">
+                                            <div class="card-body">
+                                                {{ $company->contact_two_name. ' ' .$company->contact_two_lastName }} 
+                                                <br>
+                                                <a href = "mailto: {{ $company->contact_two_email ?? '--'}}">{{ $company->contact_two_email ?? '--'}}</a>
+                                                
+                                            </div>
+                                        </div>
+                                        '>&#128240;<span class="text-uppercase size_12">Contact</span>
+                                    </button>
+                                </div>
+                            </div> --}}
+                            <div class="ms-auto d-flex justify-content-end align-item-center my-0 py-0">
+
+                                <div class="btn-group">
+
+                                    <button class="btn btn-sm rounded text-primary ms-2 my-auto"data-bs-toggle="modal" data-bs-target="#addSendMail"><i class="bx bxs-envelope"></i>Envoyer Message</button>
+
+                                    <button type="button" class="btn col btn-sm rounded border" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" 
+                                        data-bs-content='
+                                        <div class="card my-0">
+                                            <div class="card-body">
+                                                {{ $company->contact_one_name. ' ' .$company->contact_one_lastName }}
+                                                <a href = "mailto: {{ $company->contact_one_email ?? '--'}}">{{ $company->contact_one_email ?? '--'}}</a>
+                                            </div>
+                                        </div>
+                                        <div class="card mt-1">
+                                            <div class="card-body">
+                                                {{ $company->contact_two_name. ' ' .$company->contact_two_lastName }} 
+                                                <br>
+                                                <a href = "mailto: {{ $company->contact_two_email ?? '--'}}">{{ $company->contact_two_email ?? '--'}}</a>
+                                                
+                                            </div>
+                                        </div>
+                                        '>&#128240;<span class="text-uppercase size_12">Contact</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Regis de commerce</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control disabled" disabled placeholder="{{ $company->identification }}" />
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Email</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" disabled placeholder="{{ $company->email }}" />
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Télephone</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" disabled placeholder="{{ $company->phone }}" />
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Localisation</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" disabled placeholder="{{ $company->localisation }}" />
-                                </div>
-                            </div>
+                            
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-title p-2">
-                                    <h6>Contact</h6>
-                                </div>
-                                <hr class="my-1">
-                                <div class="card-body">
-                                    <div class="content">
-                                        <input type="text" disabled placeholder="Contact 1" class="form-control">
-                                        <p class="text-capitalize">{{ $company->contact_one_name. ' ' .$company->contact_one_lastName }}</p>
-                                        <div class=" my-3">
-                                            {{ $company->contact_one_email }}
-                                        </div>
-
-                                    </div>
-                                    <hr class="my-2">
-                                    <div class="contant">
-                                        <input type="text" disabled placeholder="Contact 2" class="form-control">
-
-                                        <p class="text-capitalize">{{ $company->contact_two_name. ' ' .$company->contact_two_lastName }}</p>
-                                        <div class=" my-3">
-                                            {{ $company->contact_two_email }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <div class="card">
@@ -304,5 +309,7 @@
     </div>
     @include('admin.company.grilleTarif.addTransportModal')
     @include('admin.company.grilleTarif.addTransitModal')
+
 </div>
+
 @endsection()

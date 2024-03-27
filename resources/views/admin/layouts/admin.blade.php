@@ -69,6 +69,8 @@
 
         <div class="page-wrapper" style="margin-bottom: 80px">
             @yield('section')
+
+            @include('admin.mailToModal')
         </div>
 
         <!--start overlay-->
@@ -178,6 +180,13 @@
         new PerfectScrollbar('.email-navigation');
         new PerfectScrollbar('.email-read-box');
     </script>
+
+<script>
+    $(function () {
+        $('[data-bs-toggle="popover"]').popover();
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    })
+</script>
 
 </html>
 

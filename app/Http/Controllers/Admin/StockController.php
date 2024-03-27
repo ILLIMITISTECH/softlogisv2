@@ -180,12 +180,10 @@ class StockController extends Controller
             ]);
 
             if ($product) {
-                if ($request->filled('file')) {
+                if ($request->file('file')) {
                     $file = $request->file('file');
                     $filename = 'InStock_' . date('YmdHis') . '_' . Str::uuid().'.'.$file->getClientOriginalExtension();
                     $file->move('documents/files', $filename);
-                } else {
-                    $filename = 'default_fiche.txt';
                 }
 
                 stockUpdate::create([

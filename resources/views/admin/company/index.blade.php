@@ -47,13 +47,19 @@
                             {{-- <th>Etat</th> --}}
                             <th>Actions</th>
                         </tr>
+                        
                     </thead>
                     <tbody>
                         @forelse ($companies as $company)
                         <tr>
                             <td>
-                                <img src='{{ asset('files/' . $company->logo) }}' class="product-img-2"
-                                    alt="logo company">
+                                @if ($company->logo == 'default_logo.jpg')
+                                <img src='https://cdn.pixabay.com/photo/2017/08/30/11/45/building-2696768_640.png' class="product-img-2"
+                                alt="logo company">
+                                @else
+                                    <img src='{{ asset('files/' . $company->logo) }}' class="product-img-2"
+                                alt="logo company">
+                                @endif
                             </td>
                             <td>{{ $company->code }}</td>
                             <td>

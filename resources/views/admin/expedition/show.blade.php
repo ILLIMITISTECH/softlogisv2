@@ -45,19 +45,19 @@
                     @if ($expedition->statut == 'outStock')
                         <form action="{{ route('admin.expedition.wait_expedite', ['uuid' => $expedition->uuid]) }}" method="POST" class="submitForm">
                             @csrf
-                            <button class="btn btn-outline-primary text-primary-light">Lancé l'expedition</button>
+                            <button class="btn btn-outline-primary text-primary-light">Lancer l'expedition</button>
                         </form>
                     @endif
                     @if ($expedition->statut == 'wait_exp')
                         <form action="{{ route('admin.expedition.ready', ['uuid' => $expedition->uuid]) }}" method="POST" class="submitForm">
                             @csrf
-                            <button class="btn btn-outline-primary text-primary-light">Marqué comme livré</button>
+                            <button class="btn btn-outline-primary text-primary-light">Marquer comme livré</button>
                         </form>
                     @endif
                     @if ($expedition->statut == 'livered')
                         <form action="{{ route('admin.expedition.marckToFactured', ['uuid' => $expedition->uuid]) }}" method="POST" class="submitForm">
                             @csrf
-                            <button class="btn btn-outline-primary text-primary-light">Marqué comme Facturé</button>
+                            <button class="btn btn-outline-primary text-primary-light">Marquer comme facturé</button>
                         </form>
                     @endif
                 </div>
@@ -200,7 +200,8 @@
 									<table class="table table-striped table-hover table-sm mb-0">
 										<thead>
 											<tr>
-												<th><i class='bx bx-up-arrow-alt ms-2'></i> Libellé
+												<th>
+                                                    <i class='bx bx-up-arrow-alt ms-2'></i> Libellé
 												</th>
 												<th></th>
 
@@ -229,7 +230,7 @@
 													</div>
 												</td>
 												<td class="text-center col-3 my-auto">
-                                                    <a class="col-6 size_12 text-secondary btn bg-transparent" data-bs-toggle="modal" data-bs-target="#docModal{{$ExpFile->id}}" title="Lecture">
+                                                    <a class="col-6 size_12 text-secondary btn bg-transparent" data-bs-toggle="modal" data-bs-target="#docModal{{$ExpFile->uuid}}" title="Lecture">
                                                         <i class="lni lni-eye"></i>
                                                     </a>
 

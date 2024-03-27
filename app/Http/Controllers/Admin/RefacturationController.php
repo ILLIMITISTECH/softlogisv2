@@ -329,7 +329,10 @@ class RefacturationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $item = Refacturation::where(['uuid'=>$id])->firstOrFail();
+
+        return view('admin.refacturation.edit', compact('item'));
     }
 
     /**
@@ -385,30 +388,30 @@ class RefacturationController extends Controller
                 // DB::table('facture_prestations')->where(['facture_uuid'=>$refacturation_FAC->uuid])->update(['etat'=>"inactif"]);
 
 
-                    // $prestation = $request->input('prestation');
-                    // $type_prestation = $request->input('type_prestation');
-                    // $qty = $request->input('qty');
-                    // $description = $request->input('description');
-                    // $prixunitaire = $request->input('prixunitaire');
-                    // $total = $request->input('total');
+                    $prestation = $request->input('prestation');
+                    $type_prestation = $request->input('type_prestation');
+                    $qty = $request->input('qty');
+                    $description = $request->input('description');
+                    $prixunitaire = $request->input('prixunitaire');
+                    $total = $request->input('total');
 
-                    // for($i=0; $i < count($type_prestation); $i++){
-                    // $prestations = [
-                    //     'uuid' => Str::uuid(),
-                    //     'facture_uuid' => $id,
-                    //     'etat' => "actif",
-                    //     //'prestation' => $prestation[$i],
-                    //     'type_prestation' => $type_prestation[$i],
-                    //     'qty' => $qty[$i],
-                    //     'description' => $description[$i],
-                    //     'prixunitaire' => $prixunitaire[$i],
-                    //     'total' => $total[$i],
-                    //     ];
-                    //  if($type_prestation[$i] !== null){
-                    //         DB::table('facture_prestations')->insert($prestations);
+                    for($i=0; $i < count($type_prestation); $i++){
+                    $prestations = [
+                        'uuid' => Str::uuid(),
+                        'facture_uuid' => $id,
+                        'etat' => "actif",
+                        //'prestation' => $prestation[$i],
+                        'type_prestation' => $type_prestation[$i],
+                        'qty' => $qty[$i],
+                        'description' => $description[$i],
+                        'prixunitaire' => $prixunitaire[$i],
+                        'total' => $total[$i],
+                        ];
+                     if($type_prestation[$i] !== null){
+                            DB::table('facture_prestations')->insert($prestations);
 
-                    //     }
-                    // }
+                        }
+                    }
 
             if ($refacturation) {
 
@@ -607,7 +610,8 @@ class RefacturationController extends Controller
 
     public function delettePrestationLine(Request $request, string $id)
     {
-        $prestation = FacturePrestation::where(['facture_uuid'=> $request->facture_uuid])->firstOrFail();
+        // $prestation = FacturePrestation::where(['facture_uuid'=> $request->facture_uuid])->firstOrFail();
+        $prestation = FacturePrestation::where(['uuid'=> $request->prestation_uuid])->firstOrFail();
 
         if ($prestation) {
             $prestation->delete();

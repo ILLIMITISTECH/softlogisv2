@@ -124,7 +124,11 @@
         <div class="col content-product d-flex gx-3">
             <a href="{{ route('admin.article.show', $article->uuid) }}" class="text-decoration-none">
                 <div class="card">
+                    @if ($article->image)
                     <img src="{{ asset('files/' . $article->image) }}" class="card-img-top w-100 cover img-fluid" alt="article image" style="max-height: 200px; min-height: 200px; min-width: 280px">
+                    @else
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADACAMAAAB/Pny7AAAAOVBMVEX///+hoaGampqdnZ2srKy0tLSoqKjZ2dnq6ur39/fAwMDt7e3g4OC7u7vw8PD6+vqTk5PS0tLIyMhAQKZNAAACjElEQVR4nO3a2XKqQBRAUXsCZGz4/4+9EhCQsS50FYeqvV41hm17Gkh8vQAAAAAAAAAAAAAAAAAAAAAAAAAACCIvXFB1dWNMo01I2iY3xqRGGR2KUcrmt8aYOksCyZ2+OUaH+/VlQUwwxGwRFJM3aXNtYxUTk7hIfRTvCy8mJSZxpm1Rxl2okRKTdi1K6QsXJEJiEvuNUfb80giJiaNvi9Ll6RcTElOrMSY7/WJCYnI7xJjHr0zpvjNzZTsTEjN+zvzueTPVqtl+VErM5y5Nt+vi472dufisnyk2HxYT8/rcjHjtdgcm9n+LV289Lifm9aoOTpel7z+KW/udpJgjw4YXbTzhQTGpHnbvjbF5Tkzu1Wh9bJ4TM21RanWjeExMZH5iVsfmKTHjwPTSlSc9JCbxsxZl4uWzHhKzaFFGLa/hZMZks9PibGA6bvFjImOs99H0fa/nA9NZXHJKjGlvoY0ar22WA9Ob/6TAmObvQLUbatbXpd2fZ2cbeTFxf6T+e5Z3awPTbQKzyxpxMeXwpw3fve/11odsOTbiYsZ16MYm22sx6ue+VFpMMzlUXVST6/71Gju9BxIWk6vpgPh4Z2D6munYyIqp7O+xm+agRf3cDciKKebHvrkrj73RODaiYurDQ1+rGU9IkmKS1Uuw45rhbkBQzPto2LdE37sBQTHpyZbP/tyPjZyYyX81/rumHxsxMYk9uzCtRlRMdXZguqXpxkZKTHN8xLs1LpMTE5/blSc17XWcjJjEHp/qD2LasZER00T2qsglMmKqMguglBATv0NJbo9RLg2liMy9MTrgdzS1uTemjsIqzn+L4Loqj4M6//UOAAAAAAAAAAAAAAAAAAAAAAAAAMBl/wCSoC7OdsS5KwAAAABJRU5ErkJggg==" class="card-img-top w-100 cover img-fluid" alt="article image" style="max-height: 200px; min-height: 200px; min-width: 280px">
+                    @endif
                     <div class="position-absolute bg-info badge p-2 d-flex mt-1 end-0 text-uppercase">{{ $article->numero_serie }}</div>
                     <div class="card-body mt-2">
                         <h6 class="card-title cursor-pointer text-uppercase" style="min-height: 50px !important; max-width: 200px;">
@@ -132,7 +136,6 @@
                                 {{ Str::limit($article->familly->libelle, 25, '...') }}
                             @else
                                 N/A
-
                             @endif
                         </h6>
 

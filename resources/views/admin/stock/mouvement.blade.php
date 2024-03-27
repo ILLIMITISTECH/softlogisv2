@@ -50,7 +50,6 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-
                                     <div class="ms-2">
                                         <h6 class="mb-0 font-14">{{ $mvtUpdate->product->numero_serie ?? '' }}</h6>
                                     </div>
@@ -68,10 +67,14 @@
                             <td>{{ $mvtUpdate->created_at->diffForHumans() }}</td>
 
                             <td>
-                                @if ($mvtUpdate->file != null)
-                                <div class="d-flex order-actions">
-                                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#pdfModal{{$mvtUpdate->id}}" class=""><i class="lni lni-eye"></i></a>
-                                </div>
+                                @if (!empty($mvtUpdate->file))
+                                    <div class="d-flex order-actions">
+                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#pdfModal{{$mvtUpdate->id}}" class=""><i class="lni lni-eye"></i></a>
+                                    </div>
+                                @else()
+                                    <div>
+                                        Acucune fiche chargée
+                                    </div>
                                 @endif
                             </td>
                         </tr>

@@ -90,11 +90,24 @@ class OdreExpeditionController extends Controller
             $productIds = $request->input('product_id');
 
 
-            foreach ($productIds as $key => $productId) {
-                $product = Article::find($productId);
+            // foreach ($productIds as $key => $productId) {
+            //     $product = Article::find($productId);
 
+            //     if ($product) {
+            //         $expeditions= Expedition_product::create([
+            //             'uuid' => Str::uuid(),
+            //             'expedition_id' => $expeditions->id,
+            //             'famille_uuid' => $product->famille_uuid,
+            //             'product_id' => $productId,
+            //         ]);
+            //     }
+            // }
+
+            foreach ($productIds as $productId) {
+                $product = Article::find($productId);
+        
                 if ($product) {
-                    $expeditions= Expedition_product::create([
+                    Expedition_product::create([
                         'uuid' => Str::uuid(),
                         'expedition_id' => $expeditions->id,
                         'famille_uuid' => $product->famille_uuid,

@@ -5,7 +5,7 @@
 
 <div class="page-content">
 
-    @include('admin.dashboard.centralAchat')
+    {{-- @include('admin.dashboard.centralAchat') --}}
 
     <div class="row">
         <div class="col-12 col-lg-8 d-flex">
@@ -1799,7 +1799,7 @@
                     </div>
                 </div>
                 <!--fin de la ligne-->
-                <div class="row">
+                {{-- <div class="row">
 					<div class="col-12 col-lg-12 d-flex">
 						<div class="card radius-10 w-100">
 							<div class="card-body">
@@ -1815,7 +1815,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> --}}
                 <!--end row-->
                 <div class="card radius-10">
                     <div class="card-header">
@@ -1845,7 +1845,7 @@
                                 </thead>
                                 <tbody>
 
-                                    @forelse ($factures as $facture )
+                                    @forelse ($facturesRecent as $facture )
                                         @if (!empty ($facture->prestationLines))
                                             <tr>
                                                 <td>{{ $facture->code ?? 'N/A'}}</td>
@@ -2063,7 +2063,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                {{-- <div class="row d-none">
 					<div class="col-12 col-lg-12 d-flex">
 						<div class="card radius-10 w-100">
 							<div class="card-body">
@@ -2105,7 +2105,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> --}}
                 <!--end row-->
                 <div class="card radius-10">
                     <div class="card-header">

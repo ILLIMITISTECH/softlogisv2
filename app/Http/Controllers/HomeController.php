@@ -8,6 +8,7 @@ use App\Models\Sourcing;
 use Illuminate\View\View;
 use App\Models\Expedition;
 use App\Models\OdTransite;
+use App\Mail\LogisticaMail;
 use App\Models\Facturation;
 use App\Models\OdLivraison;
 use App\Models\stockUpdate;
@@ -15,6 +16,8 @@ use Illuminate\Http\Request;
 use App\Models\Refacturation;
 use App\Models\PrestationLine;
 use App\Models\FacturePrestation;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -544,6 +547,7 @@ class HomeController extends Controller
         $totalallFactByPrestationActifCount = $allfacturPrestataire->count();
 
         $factures = Facturation::where('etat', 'actif')->get();
+        $facturesRecent = Facturation::where('etat', 'actif')->limit(10)->OrderBy('created_at', 'desc')->get();
 
         // facture prestataire echue date echeance < now();
         $facturePrestataireEchu =  Facturation::where('etat', 'actif')->whereNotIn('statut', ['payed', 'cancel'])
@@ -604,7 +608,7 @@ class HomeController extends Controller
 
     $allRefacturations = Refacturation::where('etat', 'actif')->get();
 
-    $lastFacts = Refacturation::where('etat', 'actif')->limit(10)->get();
+    $lastFacts = Refacturation::where('etat', 'actif')->limit(10)->OrderBy('created_at', 'desc')->get();
 
     $lastFactsUUIDs = $allRefacturations->pluck('uuid')->toArray();
     $factureByPres = FacturePrestation::where('etat', 'actif')->whereIn('facture_uuid', $lastFactsUUIDs)->get();
@@ -758,8 +762,61 @@ class HomeController extends Controller
         'InStock', 'conformInStockPerMonth', 'noConformInStockPerMonth','nbrTotalInPerMonth', 'nbrTotalInConform', 'nbrTotalInNoConfrom',
         'percentageInFabrication','percentageinUsineOut','percentageinWaitExpediteImport', 'percentagearrivagePod', 'percentagereceivStock', 'percentageinWaitExpediteExport', 'percentageliverExpedite',
          'conformInStock', 'noConformInStock', 'conformInStockWeekly', 'noConformInStockWeekly', 'InStockWekly', 'firstDayOfWeek', 'lastDayOfWeek', 'listInStock', 'outStockMonth', 'outStockWekly', 'totalValue', 'totalValueWeekly', 'nextArrive', 'nbrProdPerExpedition', 'sourcings', 'averageDelaySourcing', 'sourcingInValidation', 'sourcingInValidatPerMonth', 'sourcingPerMonths', 'sourcingReceive','percentageConform', 'percentageSourcingsPerMonth','percenSourcWaitLivrPerMonth','percenReceivMonth','nbrTotalOut','nbrTotalOutConform','nbrTotalOutNoConfrom','allTransitPerMonth','mostUsedTransitaire','allTransitPerWekly','nbrExpeditionLivraison', 'averageDelayTransit', 'averageDelayTransport', 'conformInStockGlobal', 'noConformInStockGlobal','sourcingPerWekly','percentageSourcingsPerWekly', 'percWaitSourPerWekly', 'percentagereceivPerWekly', 'sourcingReceivePerWekly', 'nbrExpeditionToDocValidate', 'nbrTotalExpedition', 'nbrExpeditionStarted', 'nbrExpeditionWaitExpedite', 'nbrExpeditionExpedier', 'nbrTotalExpeditionActif', 'percentageExpGlobal', 'percentageExpTransit','percentageExpWaitExp', 'percentageExpDelivered', 'averageDelayExpedite', 'latestExpedition', 'resultDate', 'recentExpedition', 'allExpWaitValidatePerMonth', 'percentageExpWaitDocMensuel', 'percentageExpDemarrerMensuel', 'countExpDemarrerPerMonth', 'countExpWaitingPerMonth', 'percentageExpWaitingMensuel','countExpReadyPerMonth', 'percentageExpReadyMensuel', 'total', 'total_count', 'total_bon_payer', 'total_bon_count', 'total_payed', 'total_payed_count', 'total_cancel', 'total_cancel_count', 'factures', 'countSourcingPerWeekly', 'lastFacts' ,'valeurTotals' , 'totalRefacturcount', 'valeurTotalsPayed','valeurTotalsSending', 'totalSendingCount', 'totalPayedCount', 'valeurTotalsRejeter', 'totalRejetedCount' ,    'valeurallFactByPrestationActif', 'totalallFactByPrestationActifCount' , 'valeur_bon_a_payer', 'facture_bon_a_payer_count', 'facture_payer_count', 'valeur_payer', 'facture_canceled_count', 'valeur_canceled', 'firstLatestExpedition', 'factureEchuCount', 'valeur_factureEchu', 'totalFactDebou', 'valeurTotalDebou', 'totalFactPrestation', 'valeurTotalPrestation', 'montantsFournisseurParMois','montantsPrestataireParMois','montantsPrestatairePayedParMois', 'montantFournisseurDeboursParMois', 'montantFournisseurPrestationParMois', 'facturesFournisseurActives', 'facturesFournisseurDebours', 'facturesFournisseurPrestation',
-        'facturePrestataireEchuCount', 'valeur_facturePrestataireEchu', 'facturesPrestataireActives', 'familyNemba', 'familyNembaInter', 'percenfamilyNembaCount', 'percenfamilyNembaInter', 'sourcingsForCentral'));
+        'facturePrestataireEchuCount', 'valeur_facturePrestataireEchu', 'facturesPrestataireActives', 'familyNemba', 'familyNembaInter', 'percenfamilyNembaCount', 'percenfamilyNembaInter', 'sourcingsForCentral','facturesRecent'));
         // return view('adminHome');
+    }
+
+    public function sendEmail(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+
+            $recipientEmail = $request->input('destinataire');
+            $emailSubject = $request->input('objet');
+            $message = $request->input('message');
+
+            $mailData = [
+                'title' => $emailSubject,
+                'body' => $message,
+            ];
+
+            $mail = new LogisticaMail($mailData, $emailSubject);
+
+            $mailSending = Mail::to($recipientEmail)->send($mail);
+
+            if ($mailSending) {
+
+                $dataResponse =[
+                    'type'=>'success',
+                    'urlback'=>"back",
+                    'message'=>"Enregistré avec succes!",
+                    'code'=>200,
+                ];
+                DB::commit();
+
+           } else {
+                DB::rollback();
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>"Erreur lors de l'enregistrement!",
+                    'code'=>500,
+                ];
+           }
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>"Erreur systeme! $th",
+                'code'=>500,
+            ];
+        }
+        return response()->json($dataResponse);
+
     }
 
     /**

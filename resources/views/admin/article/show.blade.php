@@ -77,7 +77,12 @@
     <div class="card">
         <div class="row g-0">
             <div class="col-md-4 p-3">
+
+            @if ($article->image)
             <img src="{{ asset('files/' . $article->image) }}" class="img-fluid" alt="..." style="max-height: 460px; min-height: 460px">
+            @else
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADACAMAAAB/Pny7AAAAOVBMVEX///+hoaGampqdnZ2srKy0tLSoqKjZ2dnq6ur39/fAwMDt7e3g4OC7u7vw8PD6+vqTk5PS0tLIyMhAQKZNAAACjElEQVR4nO3a2XKqQBRAUXsCZGz4/4+9EhCQsS50FYeqvV41hm17Gkh8vQAAAAAAAAAAAAAAAAAAAAAAAAAACCIvXFB1dWNMo01I2iY3xqRGGR2KUcrmt8aYOksCyZ2+OUaH+/VlQUwwxGwRFJM3aXNtYxUTk7hIfRTvCy8mJSZxpm1Rxl2okRKTdi1K6QsXJEJiEvuNUfb80giJiaNvi9Ll6RcTElOrMSY7/WJCYnI7xJjHr0zpvjNzZTsTEjN+zvzueTPVqtl+VErM5y5Nt+vi472dufisnyk2HxYT8/rcjHjtdgcm9n+LV289Lifm9aoOTpel7z+KW/udpJgjw4YXbTzhQTGpHnbvjbF5Tkzu1Wh9bJ4TM21RanWjeExMZH5iVsfmKTHjwPTSlSc9JCbxsxZl4uWzHhKzaFFGLa/hZMZks9PibGA6bvFjImOs99H0fa/nA9NZXHJKjGlvoY0ar22WA9Ob/6TAmObvQLUbatbXpd2fZ2cbeTFxf6T+e5Z3awPTbQKzyxpxMeXwpw3fve/11odsOTbiYsZ16MYm22sx6ue+VFpMMzlUXVST6/71Gju9BxIWk6vpgPh4Z2D6munYyIqp7O+xm+agRf3cDciKKebHvrkrj73RODaiYurDQ1+rGU9IkmKS1Uuw45rhbkBQzPto2LdE37sBQTHpyZbP/tyPjZyYyX81/rumHxsxMYk9uzCtRlRMdXZguqXpxkZKTHN8xLs1LpMTE5/blSc17XWcjJjEHp/qD2LasZER00T2qsglMmKqMguglBATv0NJbo9RLg2liMy9MTrgdzS1uTemjsIqzn+L4Loqj4M6//UOAAAAAAAAAAAAAAAAAAAAAAAAAMBl/wCSoC7OdsS5KwAAAABJRU5ErkJggg==" class="img-fluid" alt="..." style="max-height: 460px; min-height: 460px">
+            @endif
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -111,11 +116,11 @@
                                 <dd class="col-sm-6">{{ $article->num_billOfLading ?? "N/A" }}</dd>
                             </dl>
                             <dl class="row col-12 my-2">
-                                <dt class="col-sm-6">N* de bon de commande</dt>
+                                <dt class="col-sm-6">N°Matérie</dt>
                                 <dd class="col-sm-6">{{ $article->numero_bon_commande ?? "N/A" }}</dd>
                             </dl>
                             <dl class="row col-12">
-                                <dt class="col-sm-6">N* de serie</dt>
+                                <dt class="col-sm-6">N° De Serie</dt>
                                 <dd class="col-sm-6">{{ $article->numero_serie ?? "N/A" }}</dd>
                             </dl>
                         </div>
@@ -166,7 +171,7 @@
                         </div>
                     </div>
                     <hr class="my-3">
-                    <div class="row gap-2 d-flex mb-3" style="min-height: 100px">
+                    <div class="row gap-2 d-flex" style="min-height: 100px">
                         <div class="col">
                             <dl class="row col-12">
                                 <dt class="col-sm-6">ETA</dt>
@@ -200,20 +205,19 @@
                         </div>
                     </div>
 
-                    <div class="d-flex gap-3 mb-3" style="margin-top: 20px">
+                    <div class="d-flex gap-2 my-2">
                         @can('Edit Articles')
-                        <a class="ms-3 deleteConfirmation btn btn-primary text-light-primary" data-uuid="{{$article->uuid}}"
+                        <a class="deleteConfirmation btn btn-primary text-light-primary size_12 py-2 align-items-center align-self-center" data-uuid="{{$article->uuid}}"
                             data-type="confirmation_redirect" data-placement="top"
                             data-token="{{ csrf_token() }}"
                             data-url="{{route('admin.article.destroy',$article->uuid)}}"
                             data-title="Vous êtes sur le point de supprimer {{$article->libelle}} "
                             data-id="{{$article->uuid}}" data-param="0"
-                            data-route="{{route('admin.article.destroy',$article->uuid)}}"><i
-                                class='bx bxs-trash' style="cursor: pointer"></i>Supprimer</a>
+                            data-route="{{route('admin.article.destroy',$article->uuid)}}" style="min-width: 120px">Supprimer</a>
                         @endcan
                         @can('Delette Articles')
-                        <button type="button" class="btn btn-primary mb-3 mb-lg-0 text-light-primary" data-bs-toggle="modal" data-bs-target="#editProduct">
-                            <i class="text-primary" data-feather="edit"></i>Modifier</button>
+                        <button type="button" class="btn py-0 btn-sm  size_12 btn-primary text-light-primary" data-bs-toggle="modal" data-bs-target="#editProduct" style="min-width: 120px; border-radius: 5px">
+                            <i class="text-primary" data-feather="edit" ></i>Modifier</button>
                         @endcan
                         </div>
                     </div>

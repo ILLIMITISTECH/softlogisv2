@@ -26,7 +26,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/css/dark-theme.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/css/semi-dark.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}"/>
-	<title>Logistica - Connexion</title>
+	<title>Softlogis - Connexion</title>
 </head>
 
 <body class="">
@@ -61,7 +61,7 @@
                                         <div class="text-center">
                                             <img src="{{ asset('assets/images/icons/forgot-2.png') }}" width="100" alt="" />
                                         </div>
-                                        <h4 class="mt-5 font-weight-bold">Forgot Password?</h4>
+                                        <h4 class="mt-5 font-weight-bold">Mot de passe Oublié?</h4>
                                         <p class="text-muted">Entrez votre identifiant de messagerie enregistré pour réinitialiser le mot de passe</p>
 
                                         <div class="my-4">
@@ -78,10 +78,9 @@
                                         </div>
                                         <div class="d-grid gap-2">
                                             <button type="submit" class="btn btn-primary">
-                                                {{ __('Send Password Reset Link') }}
+                                                {{ __('Envoyer le lien de réinitialisation du mot de passe') }}
                                             </button>
-                                            <a href="{{ route('home.login') }}" class="btn btn-light"><i class='bx bx-arrow-back me-1'></i>Back to
-                                                Login</a>
+                                            <a href="{{ route('home.login') }}" class="btn btn-light"><i class='bx bx-arrow-back me-1'></i>Retour a la connexion</a>
                                         </div>
                                     </div>
                                 </form>

@@ -1,4 +1,4 @@
-<div class="modal fade" id="docModal{{$ExpFile->id}}" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="docModal{{$ExpFile->uuid}}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,17 +8,7 @@
             </div>
 
             <div class="modal-body">
-                @php $file = "documents/files"; $var = $ExpFile->files; $cum = $file.$var; @endphp
-
-                @if($cum)
-                <iframe src='{{ asset($cum) }}' width="100%" height="600"></iframe>
-                @else
-
-                @endif
-
-                <div id="pdfContainer">
-
-                </div>
+                <iframe src='{{ asset("documents/files/$ExpFile->files") }}' width="100%" height="600"></iframe>
             </div>
         </div>
     </div>

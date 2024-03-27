@@ -73,6 +73,8 @@ All Admin Routes List
 --------------------------------------------
 --------------------------------------------*/
 
+Route::post('/send-email', [HomeController::class, 'sendEmail'])->name('send.email');
+
   Route::get('/import-excel', [ExcelImportController::class, 'index'])->name('import.index');
   Route::get('/search-products-by-numero-serie/{input}', [ArticleController::class, 'searchByNumeroSerie']);
   Route::get('/tag-products-by-numero-serie/{input}', [ArticleController::class, 'tagproductByNumSeri']);
@@ -316,6 +318,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::get('/edit/facturation/{uuid}', [FacturationController::class, 'edit'])->name('facturation.edit');
         Route::post('/update/facturation/{uuid}', [FacturationController::class, 'update'])->name('facturation.update');
         Route::post('/destroy/facturation/{uuid}', [FacturationController::class, 'destroy'])->name('facturation.destroy');
+        
         Route::post('/destroy/prestationLines/{uuid}', [FacturationController::class, 'destroyPrestationLines'])->name('destroyPrestationLines');
 
 
@@ -328,6 +331,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::post('/store/refacturation', [RefacturationController::class, 'store'])->name('refacturation.store');
         Route::get('/show/refacturation/{uuid}', [RefacturationController::class, 'show'])->name('refacturation.show');
         Route::post('/destroy/refacturation/{uuid}', [RefacturationController::class, 'destroy'])->name('refacturation.destroy');
+        Route::get('/edit/refacturation/{uuid}', [RefacturationController::class, 'edit'])->name('refacturation.edit');
         Route::post('/update/refacturation/{uuid}', [RefacturationController::class, 'update'])->name('refacturation.update');
             // change state refacturation
             Route::post('/marckToSend/refacturation/{uuid}', [RefacturationController::class, 'marckToSend'])->name('refacturation.marckToSend');

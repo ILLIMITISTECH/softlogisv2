@@ -218,7 +218,9 @@
                                     <a href="{{ route('admin.refacturation.show', $item->uuid) }}"
                                         style="cursor: pointer"><i class="lni lni-eye"></i>
                                     </a>
-                                    <a href="javascript:;" class="mx-3" data-bs-toggle="modal" data-bs-target="#editFacture{{ $item->uuid }}"><i class='bx bxs-edit'></i></a>
+                                    <a href="{{ route('admin.refacturation.edit', $item->uuid)}}" class="mx-3">
+                                        <i class='bx bxs-edit'></i>
+                                    </a>
 
                                     <a class=" deleteConfirmation" data-uuid="{{$item->uuid}}"
                                         data-type="confirmation_redirect" data-placement="top"
